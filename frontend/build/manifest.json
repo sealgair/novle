@@ -1,6 +1,6 @@
 {
-  "short_name": "Lingule",
-  "name": "A fun language game",
+  "short_name": "Bookle",
+  "name": "Like Wordle, but for books!",
   "icons": [
     {
       "src": "favicon.png",

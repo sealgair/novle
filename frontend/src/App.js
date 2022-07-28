@@ -16,7 +16,7 @@ class App extends ServerComponent {
         super(props);
         this.state = {
             word: {
-                word: "lingule",
+                word: "bookle",
                 ipa: "/ˈlɪŋ.ɡwəl/",
                 meaning: "a fun language game",
             },
