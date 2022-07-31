@@ -7,28 +7,19 @@ const siteLanguages = {
   en: { endonym: 'English' },
   es: { endonym: 'Español' },
   fr: { endonym: 'Français' },
-  zh: { endonym: '中文' }
 };
 
 class Settings extends ModalComponent {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            maps: getData('allowMaps', true),
             share: getData("shareStyle", "text"),
         }
-        this.changeMap = this.changeMap.bind(this);
         this.changeShareStyle = this.changeShareStyle.bind(this);
     }
 
     getTitle() {
         return this.props.t("titles.settings");
-    }
-
-    changeMap(event) {
-        let allowed = event.target.checked;
-        setData('allowMaps', allowed);
-        this.setState({maps: allowed})
     }
 
     changeShareStyle(event) {
@@ -40,7 +31,7 @@ class Settings extends ModalComponent {
     contents() {
         const t = this.props.t;
         const i18n = this.props.i18n;
-        const guesses = getData('guess' + this.props.word.order);
+        const guesses = []; // TODO
         const guessing = guesses && guesses.length < 6 && guesses.filter(g => g.hint.language).length === 0;
         const scoring = guessing || !guesses;
 
@@ -59,14 +50,6 @@ class Settings extends ModalComponent {
         )
 
         return (<div>
-            <fieldset disabled={guessing}>
-                <legend>{t("settings.difficulty")}</legend>
-                <label><input type="checkbox" name="map" onChange={this.changeMap}
-                              checked={this.state.maps}/>
-                    {t("settings.allowMaps", {context: guessing ? "off" : "on"})}
-                </label>
-            </fieldset>
-            <br/>
             <fieldset>
                 <legend>{t("settings.sharing")}</legend>
                 <span>{scoring ? "" : t("settings.shareHint")}</span>

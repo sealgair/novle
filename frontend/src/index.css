@@ -1,25 +1,24 @@
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+    font-family: 'Times New Roman';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    --bg-color: #150326;
+    --bg-color: #281509;
+    --phrase-color: #f8f4ee;
     --text-color: #f6efff;
     --dim-text-color: #a19bb2;
     --guess-text-color: #f6efff;
-    --choice-color: #74697c;
-    --guess-color: #5f259a;
+    --choice-color: #7c7069;
+    --guess-color: #9a4825;
     --share-color: #319a25;
     --correct-color: #02b301; /*🟩*/
     --arrow-color: #6f8eac; /*⬆️*/
     --trophy-color: #ffed68; /*🏆*/
     --wrong-color: #c42626;
-    --link-color: #bb6bff;
-    --graph-color: #881bf8;
-    --input-bg-color: #301b44;
+    --link-color: #e05e40;
+    --graph-color: #cc4e1c;
+    --input-bg-color: #44251b;
     --guess-bg-color: black;
 
     background: var(--bg-color);
@@ -110,7 +109,6 @@ h1, h2, h3, h4 {
     text-align: center;
     font-size: 20px;
     padding: 10px;
-    border-bottom: 2px solid var(--text-color);
     font-weight: bold;
 }
 
@@ -146,40 +144,23 @@ h1, h2, h3, h4 {
     box-sizing: border-box;
 }
 
-.WordContainer {
-    margin: 0;
-    text-align: center;
-    cursor: default;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.PhraseContainer {
+    padding: 1em 2em;
+    border: 1px solid black;
+    font-size: 13pt;
+    background-color: var(--phrase-color);
+    color: black;
+    text-align: justify;
+    border-radius: 0.5em;
 }
-
-.WordContainer #word {
-    font-size: 50px;
-    font-family: "NotoSans Script", "NotoSans";
-    line-height: 60px;
-    margin-top: 10px;
+.PhraseContainer .line {
+    opacity: 0;
+    user-select: none;
+    transition: opacity 2s;
 }
-.WordContainer #word.vertical {
-    writing-mode: vertical-lr;
-}
-
-.WordContainer #romanization {
-    font-size: 35px;
-    line-height: 40px;
-    font-family: "NotoSerif";
-}
-
-.WordContainer #ipa {
-    font-size: 20px;
-    font-family: "NotoSerif Italic";
-    color: var(--dim-text-color);
-}
-
-.WordContainer #meaning {
-    font-size: 15px;
-    font-family: "NotoSans Light";
+.PhraseContainer .line.shown {
+    user-select: text;
+    opacity: 1;
 }
 
 .GuessWrapper {
@@ -188,88 +169,30 @@ h1, h2, h3, h4 {
     align-items: center;
 }
 
-table.Guesses {
+ul.Guesses {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 5px;
     font-size: 18px;
-}
-
-table.Guesses tr {
-    height: 30px;
-}
-
-.Guess td {
-    background-color: var(--choice-color);
     margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+ul.Guesses .Guess {
+    height: 30px;
+    background-color: var(--choice-color);
+    margin: .5em 0;
     text-align: center;
+    border-radius: 5px;
 }
 
-.Guess td:nth-child(2) {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-}
-
-.Guess td:last-child {
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-}
-
-.Guess.Hints td {
+.Guess.Hints {
     background-color: var(--guess-bg-color);
     color: var(--text-color);
     border: 1px solid var(--text-color);
 }
 
-.Guess td.Description {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    width: 0;
-}
-
-.Guess.Hints td.Language {
-    padding: 0 8px;
-}
-
-.Guess.Hints td.Language,
-.Guesses th.HintIcon.Language {
-    min-width: calc(100% - 30px * 5);
-}
-
-.Guess.Hints td:not(.Language):not(.Description),
-.Guesses th.HintIcon:not(.Language) {
-    width: 30px;
-    box-sizing: border-box;
-}
-
-.Guess.Hints td[data-value='true'] {
+.Guess.Hints [data-value='true'] {
     background-color: var(--correct-color);
-}
-
-.Guess.Hints td.Direction {
-    background-color: var(--arrow-color);
-    transform-origin: center;
-}
-.Maps .Guess.Hints td.Direction {
-    cursor: pointer;
-}
-
-.Guess.Hints td.Direction[data-value='true'] {
-    background-color: var(--correct-color);
-    color: var(--trophy-color);
-}
-
-
-.HintIcon {
-    font-size: 20px;
-    text-align: left;
-    position: relative;
-}
-
-.HintIcon > * {
-    margin-left: 5px;
-    box-sizing: content-box;
 }
 
 .Description {
@@ -406,7 +329,7 @@ label.Hidden {
 }
 
 
-.LangList {
+.BookList {
     margin: 0;
     padding: 0;
     background-color: var(--input-bg-color);
@@ -417,7 +340,7 @@ label.Hidden {
     bottom: 100%;
 }
 
-.Lang {
+.Book {
     border: 1px solid var(--text-color);
     border-radius: 5px;
     padding: 5px;
@@ -426,7 +349,7 @@ label.Hidden {
     cursor: pointer;
 }
 
-.Lang.Selected {
+.Book.Selected {
     border: 2px solid var(--link-color);
 }
 

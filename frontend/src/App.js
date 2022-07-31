@@ -2,7 +2,7 @@ import React from 'react'
 import {withTranslation} from "react-i18next";
 
 import ServerComponent from "./ServerComponent";
-import Word from "./Word";
+import Passage from "./Passage";
 import Guesses from "./Guesses";
 
 import './App.css';
@@ -15,10 +15,10 @@ class App extends ServerComponent {
     constructor(props) {
         super(props);
         this.state = {
-            word: {
-                word: "bookle",
-                ipa: "/ˈlɪŋ.ɡwəl/",
-                meaning: "a fun language game",
+            book: {
+                lines: [
+                    "Welcome to Bookle!"
+                ]
             },
             modal: null,
         }
@@ -53,15 +53,6 @@ class App extends ServerComponent {
     render() {
         let t = this.props.t;
         let font = "";
-        if (this.state.word.font) {
-            let fontFace = [
-                "@font-face {",
-                "font-family: \"NotoSans Script\";",
-                "src: url(\"" + this.state.word.font + "\")",
-                "}"
-            ]
-            font = <style>{fontFace.join("\n")}</style>
-        }
         return (
             <div className="Container">
                 {font}
@@ -77,7 +68,7 @@ class App extends ServerComponent {
                                     <i className="fa-solid fa-circle-info"></i>
                                 </a>
                             </span>
-                            <h1>Lingule</h1>
+                            <h1>Bookle</h1>
                             <span className="IconSet Right">
                                 <a className="Settings Icon TipBelow" title={t("titles.settings")} onClick={this.openSettings}>
                                     <i className="fa-solid fa-gear"></i>
@@ -87,12 +78,9 @@ class App extends ServerComponent {
                                 </a>
                             </span>
                         </header>
-                        <Word word={this.state.word.word} romanization={this.state.word.romanization}
-                              vertical={this.state.word.vertical}
-                              ipa={this.state.word.ipa} meaning={this.state.word.meaning}/>
+                        <Passage lines={this.state.book.lines}/>
                         <div className="Body">
-                            <Guesses key={this.state.word.order}
-                                     word={this.state.word}/>
+                            <Guesses book={this.state.book}/>
                         </div>
                     </div>
                 </div>
@@ -105,10 +93,10 @@ class App extends ServerComponent {
     }
 
     componentDidMount() {
-        this.fetch("/solution/word.json?tz=" + new Date().getTimezoneOffset(),
+        this.fetch("/today.json?tz=" + new Date().getTimezoneOffset(),
             (result) => {
                 this.setState({
-                    word: result,
+                    book: result,
                 });
             });
     }

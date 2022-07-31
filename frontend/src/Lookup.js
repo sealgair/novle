@@ -7,25 +7,25 @@ class Lookup extends ServerComponent {
 
     constructor(props) {
         super(props);
-        this.languages = [];
+        this.books = [];
         this.state = {value: "", selected: 0};
 
         this.handleKeypress = this.handleKeypress.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
-        this.selectLang = this.selectLang.bind(this);
+        this.selectBook = this.selectBook.bind(this);
         this.handleBlur = this.handleBlur.bind(this);
-        this.loadLanguages = this.loadLanguages.bind(this);
+        this.loadBooks = this.loadBooks.bind(this);
     }
 
     handleKeypress(event) {
         let selected = this.state.selected;
-        let langs = this.filteredLangs();
-        let lcount = langs.length;
+        let books = this.filteredBooks();
+        let bcount = books.length;
 
         if (event.code === "ArrowDown") {
             if (selected === null) {
-                selected = lcount - 1;
+                selected = bcount - 1;
             } else {
                 selected -= 1;
             }
@@ -38,7 +38,7 @@ class Lookup extends ServerComponent {
             } else {
                 selected += 1;
             }
-            if (selected >= lcount) {
+            if (selected >= bcount) {
                 selected = null;
             }
         }
@@ -46,8 +46,8 @@ class Lookup extends ServerComponent {
             if (selected === null) {
                 selected = 0;
             } else {
-                let lang = langs[selected];
-                this.selectLang(lang);
+                let book = books[selected];
+                this.selectBook(book);
             }
         }
         this.setState({selected: selected});
@@ -60,31 +60,27 @@ class Lookup extends ServerComponent {
     }
 
     handleSelect(event) {
-        this.selectLang({id: event.target.value, name: event.target.textContent});
+        this.selectBook({id: event.target.value, title: event.target.textContent});
     }
 
     handleBlur(event) {
     }
 
-    selectLang(lang) {
-        if (lang) {
-            this.guessId = lang.id;
-            this.setState({value: lang.name});
-            this.props.onSelect(lang);
+    selectBook(book) {
+        if (book) {
+            this.guessId = book.id;
+            this.setState({value: book.title});
+            this.props.onSelect(book);
         }
     }
 
-    filteredLangs() {
+    filteredBooks() {
         const rd = removeDiacritics;
         const query = rd(this.state.value);
         const patterns = query.split(" ").map(t => new RegExp('\\b' + escapeRegExp(t), 'gi'));
-        const narrowPattern = new RegExp(`\\b${escapeRegExp(query)}.*`, 'gi');
-        return this.languages.filter(lang => patterns.reduce(
-            (p, pat) => p && rd(lang.name).match(pat),
+        return this.books.filter(book => patterns.reduce(
+            (p, pat) => p && (rd(book.title).match(pat) || rd(book.author).match(pat)),
             true
-        ) || lang.other_names.reduce(
-            (n, name) => n || rd(name).match(narrowPattern),
-            false
         ));
     }
 
@@ -93,20 +89,20 @@ class Lookup extends ServerComponent {
         let selected = null;
         if (!this.guessId && this.state.value) {
             const self = this;
-            let list = this.filteredLangs().map(function (lang, i) {
-                let classes = "Lang";
+            let list = this.filteredBooks().map(function (book, i) {
+                let classes = "Book";
                 if (i === self.state.selected) {
                     classes += " Selected";
-                    selected = lang;
+                    selected = book;
                 }
                 return (
-                    <li className={classes} key={lang.id} value={lang.id} role="option"
-                        onClick={self.handleSelect} id={"lang-" + lang.id}>
-                        {lang.name}
+                    <li className={classes} key={book.id} value={book.id} role="option"
+                        onClick={self.handleSelect} id={"book-" + book.id}>
+                        {book.title} ({book.author})
                     </li>);
             });
             filtered = (
-                <ul className="LangList" id="languages" aria-label="languages" role="listbox">
+                <ul className="BookList" id="books" aria-label="books" role="listbox">
                     {list}
                 </ul>
             )
@@ -117,10 +113,10 @@ class Lookup extends ServerComponent {
                 <label className="Hidden" htmlFor="guess-lookup">{t("lookup.description")}</label>
                 <input id="guess-lookup" type="text" className="Guess Lookup" autoFocus role="combobox"
                        placeholder={t("lookup.prompt")} value={this.state.value}
-                       aria-controls="languages"
+                       aria-controls="Books"
                        aria-autocomplete="list"
                        aria-expanded={filtered ? "true" : "false"}
-                       aria-activedescendant={selected ? "lang-" + selected.id : "none"}
+                       aria-activedescendant={selected ? "Book-" + selected.id : "none"}
                        onBlur={this.handleBlur}
                        onChange={this.handleChange} onKeyDown={this.handleKeypress}/>
                 {filtered}
@@ -129,29 +125,19 @@ class Lookup extends ServerComponent {
     }
 
     componentWillUnmount() {
-        this.languages = [];
+        this.books = [];
     }
 
-    loadLanguages() {
-        this.fetch("/language/all.json?language="+this.props.i18n.resolvedLanguage,
+    loadBooks() {
+        this.fetch("/books.json",
             (result) => {
-                this.languages = result;
-                if (this.props.hiddenOptions && this.props.hiddenOptions.length > 0) {
-                    this.languages = this.languages.concat(this.props.hiddenOptions);
-                    this.languages.sort((a, b) => compare(
-                        a.name.toLowerCase(),
-                        b.name.toLowerCase()
-                    ));
-                }
+                this.books = result;
             }
         );
     }
 
     componentDidMount() {
-        this.loadLanguages();
-        this.props.i18n.on('languageChanged', () => {
-            this.loadLanguages();
-        });
+        this.loadBooks();
     }
 }
 

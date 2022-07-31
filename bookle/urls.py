@@ -17,7 +17,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.staticfiles.views import serve
-from django.urls import path, include, re_path
+from django.urls import path, re_path
+
+from books.views import BooksApi
+from puzzles.views import DayView, GuessView
 
 
 def static_root(request, *args, **kwargs):
@@ -27,6 +30,9 @@ def static_root(request, *args, **kwargs):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('books.json', BooksApi.as_view(), name='books'),
+    path('today.json', DayView.as_view(), name='solution'),
+    path('guess.json', GuessView.as_view(), name='solution'),
 ] + static(settings.FONT_URL, document_root=settings.FONT_ROOT) + [
     re_path('.*', static_root),
 ]

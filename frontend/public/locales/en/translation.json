@@ -28,8 +28,8 @@
     "copyAlt": "Copy Alt Text"
   },
   "lookup": {
-    "description": "Look up language",
-    "prompt": "What language is it?"
+    "description": "Look up book",
+    "prompt": "What book is it?"
   },
   "guess": {
     "correct": "correct",
