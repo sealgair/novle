@@ -11,16 +11,20 @@ from puzzles.models import Solution
 class GuessView(ApiView):
     def cache_vary(self, request, *args, **kwargs):
         return [
-            request.GET.get('solution', 'None'),
+            request.GET.get('puzzle', 'None'),
             request.GET.get('book', 'None')
         ]
 
-    def post(self, request):
+    def get(self, request):
         guess = get_object_or_404(Book, id=request.GET.get('book', None))
-        solution = get_object_or_404(Solution, id=request.GET.get('solution', None))
+        solution = get_object_or_404(Solution, id=request.GET.get('puzzle', None))
         hint = guess.compare(solution.book)
         return {
-            'hint': hint
+            'success': hint['book'],
+            'book': guess.title,
+            'author': guess.author.name,
+            'year': guess.pub_year,
+            'hint': hint,
         }
 
 
@@ -45,6 +49,7 @@ class DayView(ApiView):
 
         return {
             'id': solution.id,
+            'order': solution.order,
             'book': solution.book.id,
-            'lines': solution.book.lines
+            'lines': solution.book.lines,
         }

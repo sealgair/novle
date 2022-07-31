@@ -5,6 +5,14 @@ import React from "react";
 import Lookup from "./Lookup";
 import {withTranslation} from "react-i18next";
 
+const HINTS = {
+    [-1]: 'fa-arrow-down',
+    [1]: 'fa-arrow-up',
+    [0]: 'fa-check',
+    [true]: 'fa-check',
+    [false]: 'fa-xmark',
+}
+
 class Guesses extends ServerComponent {
 
     constructor(props, context) {
@@ -12,8 +20,8 @@ class Guesses extends ServerComponent {
         let done = false;
         let success = false;
         let guesses = [];
-        if (this.props.word) {
-            let data = getData('guess' + this.props.word.order);
+        if (this.props.puzzle) {
+            let data = getData('guess' + this.props.puzzle.order);
             if (Array.isArray(data)) {
                 guesses = data;
                 success = guesses[guesses.length - 1].success;
@@ -52,7 +60,7 @@ class Guesses extends ServerComponent {
         }
         const params = new URLSearchParams({
             book: this.state.guess.id,
-            solution: this.props.book.id,
+            puzzle: this.props.puzzle.id,
         }).toString();
         this.setState({'guessing': true});
         this.fetch("/guess.json?" + params,
@@ -69,8 +77,8 @@ class Guesses extends ServerComponent {
                     sid: result.sid,
                     mapGuess: null,
                 });
-                if (this.props.word.order) {
-                    setData('guess' + this.props.word.order, this.state.guesses);
+                if (this.props.puzzle.order) {
+                    setData('guess' + this.props.puzzle.order, this.state.guesses);
                     if (done) {
                         let scores = getData('scores') || {};
                         let score;
@@ -82,7 +90,7 @@ class Guesses extends ServerComponent {
                         if (!getData('allowMaps', true)) {
                             score = score + "*";
                         }
-                        scores[this.props.word.order] = score;
+                        scores[this.props.puzzle.order] = score;
                         setData('scores', scores);
                     }
                 }
@@ -100,8 +108,19 @@ class Guesses extends ServerComponent {
         const guesses = numbers.map(n => this.state.guesses[n] || false);
         const data = guesses.map(function (guess, n) {
             if (guess) {
-                return (<li className="Guess Hints">
-
+                return (<li className="Guess Hints" key={n}>
+                    <div className="author hint">
+                        {guess.author}
+                        <i className={`icon fa-solid ${HINTS[guess.hint.author]}`}></i>
+                    </div>
+                    <div className="bookTitle hint">
+                        {guess.book}
+                        <i className={`icon fa-solid ${HINTS[guess.hint.book]}`}></i>
+                    </div>
+                    <div className="year hint">
+                        {guess.year}
+                        <i className={`icon fa-solid ${HINTS[guess.hint.year]}`}></i>
+                    </div>
                 </li>);
             } else {
                 return (<li className="Guess Empty" key={n}/>);
@@ -112,7 +131,7 @@ class Guesses extends ServerComponent {
         let button = "";
         if (this.state.done) {
             button = <Share success={this.state.success} guesses={this.state.guesses}
-                            book={this.props.book}/>;
+                            puzzle={this.props.puzzle}/>;
         } else {
             lookup = <Lookup onSelect={this.onSelect} key={this.state.guesses.length}/>;
             button = <button tabIndex="0" className="MakeGuess Guess" onClick={this.makeGuess}

@@ -6,7 +6,8 @@ body {
 
     --bg-color: #281509;
     --phrase-color: #f8f4ee;
-    --text-color: #f6efff;
+    --phrase-text-color: black;
+    --text-color: #f8f4ee;
     --dim-text-color: #a19bb2;
     --guess-text-color: #f6efff;
     --choice-color: #7c7069;
@@ -149,7 +150,7 @@ h1, h2, h3, h4 {
     border: 1px solid black;
     font-size: 13pt;
     background-color: var(--phrase-color);
-    color: black;
+    color: var(--phrase-text-color);
     text-align: justify;
     border-radius: 0.5em;
 }
@@ -185,13 +186,29 @@ ul.Guesses .Guess {
     border-radius: 5px;
 }
 
-.Guess.Hints {
-    background-color: var(--guess-bg-color);
-    color: var(--text-color);
-    border: 1px solid var(--text-color);
+ul.Guesses .Guess.Hints {
+    background-color: var(--phrase-color);
+    color: var(--phrase-text-color);
+    border: 1px solid var(--phrase-text-color);
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
 }
 
-.Guess.Hints [data-value='true'] {
+ul.Guesses .Guess.Hints .hint {
+    margin: 5px;
+}
+ul.Guesses .Guess.Hints .icon {
+    margin: 0 5px;
+}
+ul.Guesses .Guess.Hints .icon.fa-check {
+    color: limegreen;
+}
+ul.Guesses .Guess.Hints .icon.fa-xmark {
+    color: darkorange;
+}
+
+ul.Guesses .Guess.Hints [data-value='true'] {
     background-color: var(--correct-color);
 }
 

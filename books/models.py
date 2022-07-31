@@ -2,7 +2,7 @@ from django.db import models
 
 
 def norm(num):
-    return num / abs(num)
+    return int(num / abs(num))
 
 
 class Author(models.Model):

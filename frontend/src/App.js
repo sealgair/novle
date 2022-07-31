@@ -15,7 +15,7 @@ class App extends ServerComponent {
     constructor(props) {
         super(props);
         this.state = {
-            book: {
+            puzzle: {
                 lines: [
                     "Welcome to Bookle!"
                 ]
@@ -78,9 +78,9 @@ class App extends ServerComponent {
                                 </a>
                             </span>
                         </header>
-                        <Passage lines={this.state.book.lines}/>
+                        <Passage lines={this.state.puzzle.lines}/>
                         <div className="Body">
-                            <Guesses book={this.state.book}/>
+                            <Guesses puzzle={this.state.puzzle} key={this.state.puzzle.order}/>
                         </div>
                     </div>
                 </div>
@@ -96,7 +96,7 @@ class App extends ServerComponent {
         this.fetch("/today.json?tz=" + new Date().getTimezoneOffset(),
             (result) => {
                 this.setState({
-                    book: result,
+                    puzzle: result,
                 });
             });
     }
