@@ -95,9 +95,6 @@ class Guesses extends ServerComponent {
                         } else {
                             score = 'X';
                         }
-                        if (!getData('allowMaps', true)) {
-                            score = score + "*";
-                        }
                         scores[this.props.puzzle.order] = score;
                         setData('scores', scores);
                     }
@@ -125,7 +122,9 @@ class Guesses extends ServerComponent {
                         {guess.book}
                         <i className={`icon fa-solid ${HINTS[guess.hint.book]}`}></i>
                     </div>
-                    <div className="year hint">
+                    <div className="year hint" title={t('guess.yearHint', {
+                        context: {[-1]: 'early', [0]: 'right', [1]: 'late'}[guess.hint.year]
+                    })}>
                         {guess.year}
                         <i className={`icon fa-solid ${HINTS[guess.hint.year]}`}></i>
                     </div>

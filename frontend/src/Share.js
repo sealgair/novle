@@ -1,5 +1,5 @@
 import React from "react";
-import {directions, cssVar, getData, isLightMode, isTouchOnly, setData, drawArrow} from "./utils";
+import {cssVar, getData, isLightMode, isTouchOnly, setData, getLines, drawArrow, drawCheck} from "./utils";
 import Canvas from "./Canvas";
 import {withTranslation, Trans} from "react-i18next";
 
@@ -24,7 +24,6 @@ class Share extends React.Component {
         this.setSpoilerStyle = this.setSpoilerStyle.bind(this);
         this.setImageStyle = this.setImageStyle.bind(this);
         this.setStyle = this.setStyle.bind(this);
-        this.wordText = this.wordText.bind(this);
     }
 
     baseShareName() {
@@ -42,25 +41,15 @@ class Share extends React.Component {
         setTimeout(() => this.setState({shareName: this.baseShareName()}), 3000);
     }
 
-    getScore(hardString, easyString) {
+    getScore() {
         const scores = getData('scores');
-        let score = scores[this.props.word.order];
-        const hard = score.toString().endsWith("*");
-        if (hard) {
-            score = score.substring(0, score.length - 1);
-        }
-        hardString = hardString || "*";
-        easyString = easyString || "";
-        return [score, hard ? hardString : easyString];
+        return scores[this.props.puzzle.order];
     }
 
     makeScoreImage() {
-        const [score, hard] = this.getScore();
-        const title = `Lingule #${this.props.word.order}: ${score}/6${hard}`;
-        let word = this.props.word.word;
-        if (this.props.word.romanization) {
-            word = `${word} (${this.props.word.romanization})`
-        }
+        const score = this.getScore();
+        const title = `Bookle #${this.props.puzzle.order}: ${score}/6`;
+        let opener = this.props.puzzle.lines[0];
         const guesses = this.props.guesses;
         const size = 30;
         const ox = 10;
@@ -73,59 +62,48 @@ class Share extends React.Component {
             ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
             ctx.fillStyle = cssVar('--text-color');
-            ctx.font = '25px NotoTitle';
+            ctx.font = '25px';
             ctx.fillText(title, ox, y);
             y += 30;
-            ctx.font = '25px NotoScript';
-            ctx.fillText(word, ox * 2, y);
-            y += 20;
+            ctx.font = '25px';
+            getLines(ctx, opener, ox * 2).forEach(function (line, i) {
+                ctx.fillText(line, ox * 2, y);
+                y += 20
+            });
 
             const boxColors = {
                 [true]: cssVar('--correct-color'),
                 [false]: cssVar('--guess-bg-color'),
             }
             ctx.strokeStyle = cssVar('--text-color');
+            let x = ox + ix;
             guesses.forEach(function (guess, i) {
-                let x = ox + ix;
-                ctx.fillStyle = cssVar('--text-color');
-                ctx.fillRect(x - 1, y - 1,
-                    (size + 1) * 6 + 1, size + 2);
+                ctx.fillStyle = boxColors[guess.hint.author];
+                ctx.fillRect(x, y, size, size);
 
-                ctx.fillStyle = boxColors[guess.hint.macroarea];
-                ctx.fillRect(x, y, size, size);
-                x += size + 1;
-                ctx.fillStyle = boxColors[guess.hint.family];
-                ctx.fillRect(x, y, size, size);
-                x += size + 1;
-                ctx.fillStyle = boxColors[guess.hint.subfamily];
-                ctx.fillRect(x, y, size, size);
-                x += size + 1;
-                ctx.fillStyle = boxColors[guess.hint.genus];
-                ctx.fillRect(x, y, size, size);
-                x += size + 1;
-                ctx.fillStyle = boxColors[guess.hint.language];
-                ctx.fillRect(x, y, size, size);
-                x += size + 1;
-
-                if (guess.hint.language) {
+                if (guess.hint.book) {
                     ctx.font = '18px mono';
                     ctx.fillStyle = boxColors[true];
                     ctx.fillRect(x, y, size, size);
-                    ctx.fillText("🏆", x + 5, y + 22);
+                    ctx.translate(x + size / 2, y + size / 2);
+                    drawCheck(ctx, size - 10);
                 } else {
                     ctx.fillStyle = cssVar('--arrow-color');
                     ctx.fillRect(x, y, size, size);
                     ctx.fillStyle = cssVar('--text-color');
                     ctx.translate(x + size / 2, y + size / 2);
-                    ctx.rotate(guess.hint.bearing * (Math.PI / 180));
+                    if (guess.hint.year == -1) {
+                        ctx.scale(1, -1);
+                    }
                     drawArrow(ctx, size - 10);
-                    ctx.setTransform(1, 0, 0, 1, 0, 0);
                 }
-                y += size + ly;
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                x += size + 5;
             });
+            y += size + ly;
 
             ctx.fillStyle = cssVar('--text-color');
-            ctx.font = '20px NotoSans';
+            ctx.font = '20px';
             ctx.fillText(document.URL, ox, y + 20);
         }} width={(size + 1) * 6 + (ox + ix) * 2} height={(size + ly) * (guesses.length) + 70 + oy + ly}
                        title={this.makeScoreDescription()}/>
@@ -133,40 +111,21 @@ class Share extends React.Component {
 
     makeScoreDescription() {
         const t = this.props.t;
-        let description = [t('share.alt.title', {num: this.props.word.order})];
-        description.push(t('share.alt.word', {word: this.wordText()}));
-        const [score, hard] = this.getScore("hard", "normal");
+        let description = [t('share.alt.title', {num: this.props.puzzle.order})];
+        description.push(this.props.puzzle.lines[0]);
+        const score = this.getScore();
         if (this.props.success) {
-            description.push(t("share.alt.score", {score: score, context: hard}));
+            description.push(t("share.alt.score", {count: score}));
         } else {
-            description.push(t("share.alt.miss", {context: hard}));
-        }
-        const correct = {
-            [true]: "correct",
-            [false]: "incorrect",
+            description.push(t("share.alt.miss"));
         }
         this.props.guesses.forEach(function (guess, i) {
             let line = t('share.alt.guessTitle', {num: i + 1});
-            if (guess.hint.language) {
+            if (guess.hint.book) {
                 line += t('share.alt.guessRight');
             } else {
-                line += t('share.alt.macroArea', {context: guess.hint.macroarea ? 'right' : 'wrong'});
-                if (guess.hint.family) {
-                    if (guess.hint.subfamily) {
-                        if (guess.hint.genus) {
-                            line += t('share.alt.gotGenus');
-                        } else {
-                            line += t('share.alt.gotSubFamily');
-                        }
-                    } else {
-                        line += t('share.alt.gotFamily');
-                    }
-                } else {
-                    line += t('share.alt.missedFamily');
-                }
-                let direction = directions[Math.round(guess.hint.bearing / 22.5)];
-                direction = t('directions.'+direction);
-                line += t('share.alt.direction', {direction: direction});
+                line += t('share.alt.author', {context: guess.hint.author ? 'right' : 'wrong'}) + ', ';
+                line += t('share.alt.year', {context: {[-1]: 'early', [0]: 'right', [1]: 'late'}[guess.hint.year]});
             }
             description.push(line);
         });
@@ -174,44 +133,49 @@ class Share extends React.Component {
         return description.join("\n");
     }
 
-    wordText() {
-        return this.props.word.romanization || this.props.word.word;
-    }
-
     makeScore() {
-        const lc = this.props.i18n.resolvedLanguage;
         const style = this.state.style;
-        const [score, hard] = this.getScore();
-        const title = "#Lingule #" + this.props.word.order + " \"" + this.wordText() + "\": " + score + "/6" + hard;
+        const score = this.getScore();
+        const title = `#Bookle #${this.props.puzzle.order}: ${score}/6\n  ${this.props.puzzle.lines[0]}`;
         if (style === "image") {
             return this.makeScoreImage();
         }
 
+        const pubyear = {
+            [-1]: '⬇️️',
+            [0]: '✅',
+            [1]: '⬆️',
+        }
+        const right = '🟩';
+        const almost = '🟧';
         const wrong = isLightMode() ? '⬜' : '⬛';
-        const squares = {[true]: '🟩', [false]: wrong};
-        const arrows = ['⬆️', '↗️️', '➡️️', '↘️️️', '⬇️️', '↙️️️', '⬅️', '↖️️️️', '⬆️'];
-        let scoreCard = this.props.guesses.map(function (guess) {
-            let hint = [
-                squares[guess.hint.macroarea],
-                squares[guess.hint.family],
-                squares[guess.hint.subfamily],
-                squares[guess.hint.genus],
-                squares[guess.hint.language],
-            ];
-            if (guess.hint.language) {
-                hint.push('🏆');
-            } else {
-                hint.push(arrows[Math.round(guess.hint.bearing / 45)]);
-            }
-            if (style === "spoiler") {
-                let lang = guess.language[lc].substring(0, 12);
-                while (lang.length < 12) {
-                    lang += " ";
+        let scoreCard = [];
+        if (style === "spoiler") {
+            scoreCard = this.props.guesses.map(function (guess) {
+                if (guess.hint.book) {
+                    return right+pubyear[0];
+                } else {
+                    let hint = [];
+                    if (guess.hint.author) {
+                        hint.push(almost);
+                    } else {
+                        hint.push(wrong);
+                    }
+                    hint.push(pubyear[guess.hint.year]+' ');
+                    hint.push(" ||`" + guess.book + "`||")
+                    return hint.join("");
                 }
-                hint.push(" ||`" + lang + "`||")
-            }
-            return hint.join("");
-        });
+            });
+        } else {
+            let score = "📖 " + this.props.guesses.map(function (guess) {
+                if (guess.hint.book) {
+                    return right+pubyear[0];
+                } else {
+                    return (guess.hint.author ? almost : wrong) + pubyear[guess.hint.year]
+                }
+            }).join(" ");
+            scoreCard = [score];
+        }
         scoreCard.splice(0, 0, title);
         scoreCard.push(document.URL);
         return scoreCard.join("\n");
@@ -224,7 +188,7 @@ class Share extends React.Component {
         }
         if (isTouchOnly() && this.state.style !== "image" && navigator.share) {
             navigator.share({
-                title: "Lingule",
+                title: "Bookle",
                 text: data,
             }).then(r => this.alertShare("Shared"));
         } else if (navigator.clipboard) {

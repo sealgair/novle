@@ -87,22 +87,55 @@ function inClass(element, className) {
     return false;
 }
 
+function getLines(ctx, text, off) {
+    const maxWidth = ctx.canvas.width - off;
+    const words = text.split(" ");
+    let lines = [];
+    let currentLine = words[0];
+
+    for (let i = 1; i < words.length; i++) {
+        const word = words[i];
+        const width = ctx.measureText(currentLine + " " + word).width;
+        if (width < maxWidth) {
+            currentLine += " " + word;
+        } else {
+            lines.push(currentLine);
+            currentLine = word;
+        }
+    }
+    lines.push(currentLine);
+    return lines;
+}
+
 function drawArrow(ctx, s) {
-    ctx.lineWidth = 2;
-    const y = (s / 2);
+    const h = (s / 2);
     ctx.beginPath();
-    ctx.moveTo(0, y);
-    ctx.lineTo(0, -(y - 2));
-    ctx.lineTo(-y / 2, 0);
-    ctx.moveTo(0, -(y - 2));
-    ctx.lineTo(y / 2, 0);
+    ctx.moveTo(0, -h);
+    ctx.lineTo(-h, 0);
+    ctx.lineTo(-h/2, 0);
+    ctx.lineTo(-h/2, h);
+    ctx.lineTo(h/2, h);
+    ctx.lineTo(h/2, 0);
+    ctx.lineTo(h, 0);
     ctx.closePath();
+    ctx.fill();
+}
+
+function drawCheck(ctx, s) {
+    ctx.lineWidth = 4;
+    const h = (s / 2);
+    ctx.beginPath();
+    ctx.moveTo(-h, 0);
+    ctx.lineTo(-2, h-2);
+    ctx.lineTo(h, -h);
     ctx.stroke();
 }
 
 export {
     directions,
+    getLines,
     drawArrow,
+    drawCheck,
     plural,
     compare,
     randomInt,
