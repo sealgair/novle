@@ -12,6 +12,10 @@ class AuthorAdmin(admin.ModelAdmin):
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
+
+    class Media:
+        js = ('//code.jquery.com/jquery-3.6.0.min.js', '/admin/js/inventory/line_counter.js',)
+
     fieldsets = (
         (None, {
             'fields': (

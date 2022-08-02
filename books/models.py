@@ -22,7 +22,16 @@ class Book(models.Model):
 
     @property
     def lines(self):
-        return self.opening.split('\n')
+        lines = []
+        for line in self.opening.split('\n'):
+            line = line.strip()
+            if line and len(lines) < 6:
+                lines.append(line+' ')
+            else:
+                if line == '':
+                    line = '\n'
+                lines[-1] += line
+        return lines
 
     def __str__(self):
         return f'"{self.title}" by {self.author}'
