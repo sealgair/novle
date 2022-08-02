@@ -20,6 +20,9 @@ class Book(models.Model):
     pub_year = models.IntegerField(null=True)
     opening = models.TextField(blank=True)
 
+    class Meta:
+        ordering = ['author__name', '-pub_year', 'title']
+
     @property
     def lines(self):
         lines = []
