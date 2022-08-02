@@ -27,8 +27,7 @@ SECRET_KEY = 'django-insecure-)!2%bvk2!2@z)@t%otlo-lh6l3k7+!ren=%1(pj8zmbfxdgwjf
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = [
-    'bookle.herokuapp.com',
-    'bookle.xyz',
+    'bookle-game.herokuapp.com',
 ]
 RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
 if RUNNING_DEVSERVER:
