@@ -3,9 +3,20 @@ import {withTranslation} from "react-i18next";
 
 class Passage extends React.Component {
 
+    constructor(props, context) {
+        super(props, context);
+        this.state = {
+            guesses: 0
+        }
+    }
+
+    componentDidMount() {
+        document.addEventListener('guess', event => this.setState({'guesses': event.detail.count}));
+    }
+
     render() {
         const lines = this.props.lines.map((n, i)=>
-            <span class={"line" + (i === 0 ? " shown" : "")} key={i}>{n}</span>
+            <span className={"line" + (i <= this.state.guesses ? " shown" : "")} key={i}>{n}</span>
         );
         return (
             <div className="PhraseContainer">

@@ -2,6 +2,8 @@ from django.db import models
 
 
 def norm(num):
+    if num == 0:
+        return 0
     return int(num / abs(num))
 
 
