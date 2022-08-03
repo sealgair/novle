@@ -44,8 +44,13 @@ class DayView(ApiView):
         try:
             solution = Solution.objects.get(date=date)
         except Solution.DoesNotExist:
-            book = Book.objects.annotate(usages=Count('solutions')).order_by('usages', '?').first()
-            solution = Solution.objects.create(date=date, book=book)
+            try:
+                book = Book.objects.has_opening().annotate(usages=Count('solutions')).order_by('usages', '?').first()
+                solution = Solution.objects.create(date=date, book=book)
+            except Book.DoesNotExist:
+                return {
+                    'lines': ["There are no books set up yet. Please try back later."]
+                }
 
         return {
             'id': solution.id,

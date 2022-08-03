@@ -1,3 +1,5 @@
+import re
+
 from django.db import models
 
 
@@ -14,11 +16,32 @@ class Author(models.Model):
         return self.name
 
 
+class BookQuerySet(models.QuerySet):
+
+    def has_opening(self, invert=False):
+        regex = r'(\S+.*(\n|$)){6}'
+        if invert:
+            return self.exclude(opening__iregex=regex)
+        else:
+            return self.filter(opening__iregex=regex)
+
+
+class BookManager(models.Manager):
+
+    def get_queryset(self):
+        return BookQuerySet(self.model, using=self._db)
+
+    def has_opening(self, invert=False):
+        return self.get_queryset().has_opening(invert=invert)
+
+
 class Book(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     title = models.CharField(max_length=256)
     pub_year = models.IntegerField(null=True)
     opening = models.TextField(blank=True)
+
+    objects = BookManager()
 
     class Meta:
         ordering = ['author__name', '-pub_year', 'title']

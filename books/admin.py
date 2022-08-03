@@ -31,11 +31,10 @@ class NeedsOpeningFilter(admin.SimpleListFilter):
         )
 
     def queryset(self, request, queryset):
-        regex = r'(\S+.*(\n|$)){6}'
         if self.value() == 'True':
-            return queryset.exclude(opening__iregex=regex)
+            return queryset.has_opening(invert=True)
         elif self.value() == 'False':
-            return queryset.filter(opening__iregex=regex)
+            return queryset.has_opening()
 
 
 @admin.register(Book)
