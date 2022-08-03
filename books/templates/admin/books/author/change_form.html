@@ -1,0 +1,29 @@
+{% extends "admin/change_form.html" %}
+
+{% block admin_change_form_document_ready %}
+    {{ block.super }}
+    <script>
+    django.jQuery(function ($) {
+        $('.field-title .vTextField').on('paste', function (event) {
+            event.preventDefault();
+            let paste = event.originalEvent.clipboardData .getData('text');
+            let row = $(event.target).parents('.form-row');
+            const lines = paste.split(/\r?\n/);
+            for (const i in lines) {
+                let line = lines[i];
+                let m = line.search(/\d{4}/);
+                if (m != -1) {
+                    const year = line.substr(m, 4);
+                    row.find('.vIntegerField').val(year);
+                    line = line.replace(/\W*\d{4}\W*/, '');
+                }
+                row.find('.vTextField').val(line.trim());
+                if (row.next('.dynamic-book_set').length === 0) {
+                    $('.add-row a').trigger('click');
+                }
+                row = row.next('.dynamic-book_set');
+            }
+        });
+    });
+    </script>
+{% endblock %}
