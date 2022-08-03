@@ -26,7 +26,11 @@ class Guesses extends ServerComponent {
                 guesses = data;
                 success = guesses[guesses.length - 1].success;
                 done = success || guesses.length >= 6;
-                this.dispatchGuess(guesses.length);
+                if (done) {
+                    this.dispatchGuess(6);
+                } else {
+                    this.dispatchGuess(guesses.length);
+                }
             }
         }
         this.state = {
@@ -83,7 +87,11 @@ class Guesses extends ServerComponent {
                     sid: result.sid,
                     mapGuess: null,
                 });
-                this.dispatchGuess(guesses.length);
+                if (done) {
+                    this.dispatchGuess(6);
+                } else {
+                    this.dispatchGuess(guesses.length);
+                }
 
                 if (this.props.puzzle.order) {
                     setData('guess' + this.props.puzzle.order, this.state.guesses);
