@@ -47,9 +47,6 @@ class NeedsOpeningFilter(admin.SimpleListFilter):
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
 
-    class Media:
-        js = ('//code.jquery.com/jquery-3.6.0.min.js', '/admin/js/books/line_counter.js',)
-
     fieldsets = (
         (None, {
             'fields': (
