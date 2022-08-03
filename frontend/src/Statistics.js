@@ -12,7 +12,6 @@ class Statistics extends ModalComponent {
         const scores = getData('scores') || {};
         this.games = Object.keys(scores).length;
         this.wins = 0;
-        this.hardWins = 0;
         this.maxScore = 0;
         this.scores = {};
         const self = this;
@@ -22,10 +21,6 @@ class Statistics extends ModalComponent {
         this.mStreak = 0;
 
         Object.values(scores).forEach(function (s, i) {
-            let hard = s.toString().endsWith("*");
-            if (hard) {
-                s = s.substring(0, s.length - 1);
-            }
             let won = s !== 'X';
             if (won) {
                 s = parseInt(s);
@@ -35,9 +30,6 @@ class Statistics extends ModalComponent {
             self.maxScore = Math.max(self.maxScore, self.scores[s]);
             if (won) {
                 self.wins += 1;
-                if (hard || i < FIRST_EASY) {
-                    self.hardWins += 1;
-                }
             }
             if (s === 'X') {
                 self.cStreak = 0;
@@ -82,10 +74,6 @@ class Statistics extends ModalComponent {
                     <div className="StatBox">
                         <span className="Stat">{this.wins}</span>
                         <span className="StatLabel">{t("stats.wins")}</span>
-                    </div>
-                    <div className="StatBox">
-                        <span className="Stat">{this.hardWins}</span>
-                        <span className="StatLabel">{t("stats.hardWins")}</span>
                     </div>
                     <div className="StatBox">
                         <span className="Stat">{this.cStreak}</span>

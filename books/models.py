@@ -16,14 +16,16 @@ class Author(models.Model):
         return self.name
 
 
+HAS_OPENING_REGEX = r'(\S+.*(\n|$)){6}'
+
+
 class BookQuerySet(models.QuerySet):
 
     def has_opening(self, invert=False):
-        regex = r'(\S+.*(\n|$)){6}'
         if invert:
-            return self.exclude(opening__iregex=regex)
+            return self.exclude(opening__iregex=HAS_OPENING_REGEX)
         else:
-            return self.filter(opening__iregex=regex)
+            return self.filter(opening__iregex=HAS_OPENING_REGEX)
 
 
 class BookManager(models.Manager):

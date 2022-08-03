@@ -81,6 +81,7 @@ class Settings extends ModalComponent {
                     {languageChoices}
                 </ul>
                 <p>{t("settings.languageDisclaimer")}</p>
+                <p>{t("settings.languageExplanation")}</p>
             </fieldset>
         </div>)
     }
