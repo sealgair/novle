@@ -28,7 +28,7 @@
   "share": {
     "instructions_tap": "Tap and hold to copy the image below, tap \"$t(buttons.copyAlt)\" to copy text description",
     "instructions_click": "Right click to copy the image below, click \"$t(buttons.copyAlt)\" to copy text description",
-    "description": "emoji-based bookle scorecard for this round",
+    "description": "emoji-based Bookle scorecard for this round",
     "styleChoice": "choose share style",
     "textStyle": "Text",
     "spoilerStyle": "Spoiler",
@@ -72,8 +72,6 @@
   },
   "settings": {
     "difficulty": "Difficulty",
-    "allowMaps_on": "Allow Maps (disable for hard mode)",
-    "allowMaps_off": "Allow Maps (can't change mid-game)",
     "sharing": "Sharing Options",
     "shareHint": "(use \"share options\" in bottom right to change)",
     "shareText": "Emoji text",
@@ -89,7 +87,7 @@
     "example": {
       "phrase": "For example, you might be given the following opening line:",
       "guess": "If you guessed the book 'Oliver Twist', you would see the this:",
-      "explain": "It is telling you that, while you didn't get the book right, you did get the correct author. The up arrow by the year tells you that the book you're after was published after 'Oliver Tiwst'"
+      "explain": "It is telling you that, while you didn't get the book right, you did get the correct author. The up arrow by the year tells you that the book you're after was published after 'Oliver Twist'"
     }
   }
 }
