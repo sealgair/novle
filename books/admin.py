@@ -1,9 +1,16 @@
 import re
 
+from urllib.parse import quote as urlquote
+
 from django.contrib import admin
+from django.contrib.admin.templatetags.admin_urls import add_preserved_filters
 from django.db import models
 from django.forms import TextInput
+from django.contrib import messages
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.utils.html import format_html
+from django.utils.translation import gettext as _
 
 from books.models import Author, Book
 
@@ -41,7 +48,7 @@ class NeedsOpeningFilter(admin.SimpleListFilter):
 class BookAdmin(admin.ModelAdmin):
 
     class Media:
-        js = ('//code.jquery.com/jquery-3.6.0.min.js', '/admin/js/inventory/line_counter.js',)
+        js = ('//code.jquery.com/jquery-3.6.0.min.js', '/admin/js/books/line_counter.js',)
 
     fieldsets = (
         (None, {
@@ -61,6 +68,49 @@ class BookAdmin(admin.ModelAdmin):
     formfield_overrides = {
         models.IntegerField: {'widget': TextInput},
     }
+
+    def render_change_form(self, request, context, add=False, change=False, form_url="", obj=None):
+        context.update({
+            'show_save_and_edit_next': Book.objects.has_opening(invert=True).exists()
+        })
+        return super().render_change_form(request, context, add, change, form_url, obj)
+
+    def response_change(self, request, obj):
+        response = super().response_change(request, obj)
+        opts = self.model._meta
+        preserved_filters = self.get_preserved_filters(request)
+        msg_dict = {
+            "name": opts.verbose_name,
+            "obj": format_html('<a href="{}">{}</a>', urlquote(request.path), obj),
+        }
+        if "_editnext" in request.POST:
+            try:
+                next = Book.objects.has_opening(invert=True).first()
+            except Book.DoesNotExist:
+                msg = format_html(
+                    _("There are no more books missing opening lines. Congratulations!"),
+                )
+                self.message_user(request, msg, messages.SUCCESS)
+                return response
+            msg_dict['next'] = next
+            msg = format_html(
+                _(
+                    "You may edit {next} below."
+                ),
+                **msg_dict,
+            )
+            self.message_user(request, msg, messages.SUCCESS)
+            redirect_url = reverse(
+                "admin:%s_%s_change" % (opts.app_label, opts.model_name),
+                kwargs={'object_id': next.id},
+                current_app=self.admin_site.name,
+            )
+            redirect_url = add_preserved_filters(
+                {"preserved_filters": preserved_filters, "opts": opts}, redirect_url
+            )
+            return HttpResponseRedirect(redirect_url)
+        else:
+            return response
 
     def lines(self, obj):
         return len([

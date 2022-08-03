@@ -1,0 +1,7 @@
+{% extends "admin/submit_line.html" %}
+{% load i18n %}
+
+{% block submit-row %}
+    {{ block.super }}
+    {% if show_save_and_edit_next %}<input type="submit" value="{% translate 'Save and edit next' %}" name="_editnext">{% endif %}
+{% endblock %}
