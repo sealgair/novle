@@ -520,6 +520,10 @@ button.ToggleShareOptions {
     margin-right: .5em;
 }
 
+.InfoContent .links .description {
+    float: right;
+}
+
 .HelpList {
     padding: 0;
 }

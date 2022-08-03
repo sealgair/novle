@@ -109,7 +109,9 @@
     "code": "See the code",
     "tweet": "Tweet at me",
     "toot": "Toot at me",
-    "bugs": "The only thing I like more than compliments is bug reports!"
+    "bugs": "The only thing I like more than compliments is bug reports!",
+    "links": "I also made this:",
+    "lingule": "Guess the language of the mystery word each day"
   },
   "settings": {
     "difficulty": "Difficulty",
