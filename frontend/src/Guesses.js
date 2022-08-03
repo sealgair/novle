@@ -123,17 +123,17 @@ class Guesses extends ServerComponent {
             if (guess) {
                 return (<li className="Guess Hints" key={n}>
                     <div className="author hint">
-                        {guess.author}
+                        <div className="wrapper">{guess.author}</div>
                         <i className={`icon fa-solid ${HINTS[guess.hint.author]}`}></i>
                     </div>
                     <div className="bookTitle hint">
-                        {guess.book}
+                        <div className="wrapper">{guess.book}</div>
                         <i className={`icon fa-solid ${HINTS[guess.hint.book]}`}></i>
                     </div>
                     <div className="year hint" title={t('guess.yearHint', {
                         context: {[-1]: 'early', [0]: 'right', [1]: 'late'}[guess.hint.year]
                     })}>
-                        {guess.year}
+                        <div className="wrapper">{guess.year}</div>
                         <i className={`icon fa-solid ${HINTS[guess.hint.year]}`}></i>
                     </div>
                 </li>);

@@ -179,7 +179,7 @@ ul.Guesses {
 }
 
 ul.Guesses .Guess {
-    height: 30px;
+    min-height: 30px;
     background-color: var(--choice-color);
     margin: .5em 0;
     text-align: center;
@@ -192,12 +192,21 @@ ul.Guesses .Guess.Hints {
     border: 1px solid var(--phrase-text-color);
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 0 5px;
+    white-space: nowrap;
 }
 
 ul.Guesses .Guess.Hints .hint {
     margin: 5px;
+    display: flex;
+    align-items: center;
 }
+
+ul.Guesses .Guess.Hints .hint.bookTitle .wrapper {
+    white-space: break-spaces;
+}
+
 ul.Guesses .Guess.Hints .icon {
     margin: 0 5px;
 }
