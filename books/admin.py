@@ -55,7 +55,7 @@ class BookAdmin(admin.ModelAdmin):
                 'title',
                 'author',
                 'pub_year',
-                'goole_books',
+                'google_books',
                 'opening',
             )
         }),

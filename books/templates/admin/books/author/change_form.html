@@ -12,11 +12,16 @@
             for (const i in lines) {
                 let line = lines[i];
                 line = line.replace(/ISBN\s*(\d+-)+\d/, ''); // strip isbn
+                line = line.replace(/\[\d+\]/, ''); // strip footnote
                 let m = line.search(/\d{4}/);
                 if (m !== -1) {
                     const year = line.substr(m, 4);
                     row.find('.vIntegerField').val(year);
-                    line = line.replace(/\W*\d{4}\W*/, '');
+                    if (line.match(/^[\W]*\d{4}/)) {
+                        line = line.replace(/[\s,.\-(]+\d{4}[\W]*/, ' ');
+                    } else {
+                        line = line.replace(/[\s,.\-(]+\d{4}.*/, ' ');
+                    }
                 }
                 line = line.trim();
                 if (line) {
