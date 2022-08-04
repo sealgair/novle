@@ -12,6 +12,15 @@
             counter.text(`${lines.length}/6 lines`);
         });
         opening.trigger('input');
+
+        opening.on('paste', function (event) {
+            event.preventDefault();
+            let paste = event.originalEvent.clipboardData.getData('text');
+            paste = paste.replace(/(\r?\n)(?!\r?\n)/, ' ');
+            paste = paste.replace(/\./g, '.\n');
+            opening.val(paste);
+            opening.trigger('input');
+        });
     });
     </script>
 {% endblock %}
