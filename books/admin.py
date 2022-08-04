@@ -26,6 +26,8 @@ class AuthorAdmin(admin.ModelAdmin):
     exclude = []
     inlines = [BookInline]
 
+    search_fields = ['name']
+
 
 class NeedsOpeningFilter(admin.SimpleListFilter):
     title = "Needs Opening"
@@ -58,7 +60,7 @@ class BookAdmin(admin.ModelAdmin):
             )
         }),
     )
-    readonly_fields = ('lines', 'goole_books')
+    readonly_fields = ('lines', 'google_books')
     list_display = ['title', 'author', 'lines']
     search_fields = ['title', 'author']
     list_filter = [NeedsOpeningFilter]
@@ -115,7 +117,7 @@ class BookAdmin(admin.ModelAdmin):
             if l
         ])
 
-    def goole_books(self, obj):
+    def google_books(self, obj):
         """
         https://www.google.com/search?q=intitle:%22Great+Expectations%22+inauthor:%22Charles+Dickens%22&sxsrf=ALiCzsbHQGpnJ25Zm1mKZ5n6S14lZUCz1Q:1659452384381&source=lnms&tbm=bks&sa=X&ved=2ahUKEwjn4ZHvtaj5AhWLhIkEHTceCLEQ_AUoAnoECAIQBA&biw=1440&bih=762&dpr=2
         """
