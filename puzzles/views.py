@@ -45,7 +45,8 @@ class DayView(ApiView):
             solution = Solution.objects.get(date=date)
         except Solution.DoesNotExist:
             try:
-                book = Book.objects.has_opening().annotate(usages=Count('solutions')).order_by('usages', '?').first()
+                book = Book.objects.has_opening().exclude(skip_puzzle=True)\
+                    .annotate(usages=Count('solutions')).order_by('usages', '?').first()
                 solution = Solution.objects.create(date=date, book=book)
             except Book.DoesNotExist:
                 return {

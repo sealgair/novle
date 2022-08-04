@@ -21,11 +21,11 @@ HAS_OPENING_REGEX = r'(\S+.*(\n|$)){6}'
 
 class BookQuerySet(models.QuerySet):
 
-    def has_opening(self, invert=False):
-        if invert:
-            return self.exclude(opening__iregex=HAS_OPENING_REGEX)
-        else:
-            return self.filter(opening__iregex=HAS_OPENING_REGEX)
+    def has_opening(self):
+        return self.filter(opening__iregex=HAS_OPENING_REGEX)
+
+    def needs_opening(self):
+        return self.filter(skip_puzzle=False).exclude(opening__iregex=HAS_OPENING_REGEX)
 
 
 class BookManager(models.Manager):
@@ -33,8 +33,11 @@ class BookManager(models.Manager):
     def get_queryset(self):
         return BookQuerySet(self.model, using=self._db)
 
-    def has_opening(self, invert=False):
-        return self.get_queryset().has_opening(invert=invert)
+    def has_opening(self):
+        return self.get_queryset().has_opening()
+
+    def needs_opening(self):
+        return self.get_queryset().needs_opening()
 
 
 class Book(models.Model):
@@ -42,6 +45,7 @@ class Book(models.Model):
     title = models.CharField(max_length=256)
     pub_year = models.IntegerField(null=True)
     opening = models.TextField(blank=True)
+    skip_puzzle = models.BooleanField(default=False)
 
     objects = BookManager()
 

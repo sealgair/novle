@@ -17,7 +17,7 @@ from books.models import Author, Book
 
 class BookInline(admin.TabularInline):
     model = Book
-    fields = ['title', 'pub_year']
+    fields = ['title', 'pub_year', 'skip_puzzle']
     extra = 6
 
 
@@ -37,31 +37,36 @@ class NeedsOpeningFilter(admin.SimpleListFilter):
         return (
             ('True', 'Yes'),
             ('False', 'No'),
+            ('Skip', 'Skip'),
         )
 
     def queryset(self, request, queryset):
         if self.value() == 'True':
-            return queryset.has_opening(invert=True)
+            return queryset.needs_opening()
         elif self.value() == 'False':
             return queryset.has_opening()
+        elif self.value() == 'Skip':
+            return queryset.filter(skip_puzzle=True)
 
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
-
+    list_per_page = 40
     fieldsets = (
         (None, {
             'fields': (
                 'title',
                 'author',
                 'pub_year',
+                'skip_puzzle',
                 'google_books',
                 'opening',
             )
         }),
     )
     readonly_fields = ('lines', 'google_books')
-    list_display = ['title', 'author', 'lines']
+    list_display = ['title', 'author', 'skip_puzzle', 'lines']
+    list_editable = ['skip_puzzle']
     search_fields = ['title', 'author']
     list_filter = [NeedsOpeningFilter]
     formfield_overrides = {
@@ -70,7 +75,7 @@ class BookAdmin(admin.ModelAdmin):
 
     def render_change_form(self, request, context, add=False, change=False, form_url="", obj=None):
         context.update({
-            'show_save_and_edit_next': Book.objects.has_opening(invert=True).exists()
+            'show_save_and_edit_next': Book.objects.needs_opening().exists()
         })
         return super().render_change_form(request, context, add, change, form_url, obj)
 
@@ -84,7 +89,7 @@ class BookAdmin(admin.ModelAdmin):
         }
         if "_editnext" in request.POST:
             try:
-                next = Book.objects.has_opening(invert=True).first()
+                next = Book.objects.needs_opening().first()
             except Book.DoesNotExist:
                 msg = format_html(
                     _("There are no more books missing opening lines. Congratulations!"),
