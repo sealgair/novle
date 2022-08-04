@@ -11,17 +11,21 @@
             const lines = paste.split(/\r?\n/);
             for (const i in lines) {
                 let line = lines[i];
+                line = line.replace(/ISBN\s*(\d+-)+\d/, ''); // strip isbn
                 let m = line.search(/\d{4}/);
-                if (m != -1) {
+                if (m !== -1) {
                     const year = line.substr(m, 4);
                     row.find('.vIntegerField').val(year);
                     line = line.replace(/\W*\d{4}\W*/, '');
                 }
-                row.find('.vTextField').val(line.trim());
-                if (row.next('.dynamic-book_set').length === 0) {
-                    $('.add-row a').trigger('click');
+                line = line.trim();
+                if (line) {
+                    row.find('.vTextField').val(line.trim());
+                    if (row.next('.dynamic-book_set').length === 0) {
+                        $('.add-row a').trigger('click');
+                    }
+                    row = row.next('.dynamic-book_set');
                 }
-                row = row.next('.dynamic-book_set');
             }
         });
     });
