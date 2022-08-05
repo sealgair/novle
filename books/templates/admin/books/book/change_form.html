@@ -17,6 +17,7 @@
             event.preventDefault();
             let paste = event.originalEvent.clipboardData.getData('text');
             console.log(paste)
+            paste = paste.replace(/-(\r?\n)(?!\r?\n)/g, '');
             paste = paste.replace(/(\r?\n)(?!\r?\n)/g, ' ');
             paste = paste.replace(/\s*?\n\s*/g, '\n\n');  // re-double remaining
             paste = paste.replace(/\.[^\S\n]+/g, '.\n');
