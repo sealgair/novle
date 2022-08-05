@@ -16,9 +16,11 @@
         opening.on('paste', function (event) {
             event.preventDefault();
             let paste = event.originalEvent.clipboardData.getData('text');
-            paste = paste.replace(/(\r?\n)(?!\r?\n)/, ' ');
-            paste = paste.replace(/\./g, '.\n');
-            opening.val(paste);
+            console.log(paste)
+            paste = paste.replace(/(\r?\n)(?!\r?\n)/g, ' ');
+            paste = paste.replace(/\s*?\n\s*/g, '\n\n');  // re-double remaining
+            paste = paste.replace(/\.[^\S\n]+/g, '.\n');
+            opening.val(opening.val() + paste);
             opening.trigger('input');
         });
     });
