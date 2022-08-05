@@ -30,23 +30,30 @@ class AuthorAdmin(admin.ModelAdmin):
 
 
 class NeedsOpeningFilter(admin.SimpleListFilter):
-    title = "Needs Opening"
+    title = "Opening"
     parameter_name = 'opening'
 
     def lookups(self, request, model_admin):
         return (
-            ('True', 'Yes'),
-            ('False', 'No'),
-            ('Skip', 'Skip'),
+            ('needs', 'Needs'),
+            ('has', 'Has'),
+            ('skip', 'Skip'),
         )
 
     def queryset(self, request, queryset):
-        if self.value() == 'True':
+        if self.value() == 'needs':
             return queryset.needs_opening()
-        elif self.value() == 'False':
+        elif self.value() == 'has':
             return queryset.has_opening()
-        elif self.value() == 'Skip':
+        elif self.value() == 'skip':
             return queryset.filter(skip_puzzle=True)
+
+
+
+
+@admin.action(description='Skip selected boks')
+def skip_books(modeladmin, request, queryset):
+    queryset.update(skip_puzzle=True)
 
 
 @admin.register(Book)
@@ -69,6 +76,7 @@ class BookAdmin(admin.ModelAdmin):
     list_editable = ['skip_puzzle']
     search_fields = ['title', 'author']
     list_filter = [NeedsOpeningFilter]
+    actions = [skip_books]
     formfield_overrides = {
         models.IntegerField: {'widget': TextInput},
     }
