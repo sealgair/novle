@@ -74,7 +74,7 @@ class BookAdmin(admin.ModelAdmin):
     readonly_fields = ('lines', 'google_books')
     list_display = ['title', 'author', 'skip_puzzle', 'lines']
     list_editable = ['skip_puzzle']
-    search_fields = ['title', 'author']
+    search_fields = ['title', 'author__name']
     list_filter = [NeedsOpeningFilter]
     actions = [skip_books]
     formfield_overrides = {
