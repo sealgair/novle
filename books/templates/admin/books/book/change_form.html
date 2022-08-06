@@ -46,10 +46,11 @@
             event.preventDefault();
             let paste = event.originalEvent.clipboardData.getData('text');
             console.log(paste)
-            paste = paste.replace(/-(\r?\n)(?!\r?\n)/g, '');
-            paste = paste.replace(/(\r?\n)(?!\r?\n)/g, ' ');
+            paste = paste.replace(/-(\r?\n)(?!\r?\n)/g, ''); // collapse line breaks with hyphens
+            paste = paste.replace(/(\r?\n)(?!\r?\n)/g, ' '); // collapse single newlines
             paste = paste.replace(/\s*?\n\s*/g, '\n\n');  // re-double remaining
-            paste = paste.replace(/\.[^\S\n]+/g, '.\n');
+            paste = paste.replace(/\s*?-\s*/g, ' – ');  // expand hyphens to em-dashes
+            paste = paste.replace(/(?<![MD][rs]+)\.[^\S\n]+/g, '.\n'); // new line breaks after periods
             opening.val(opening.val() + paste);
             opening.trigger('input');
         });
