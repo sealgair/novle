@@ -15,8 +15,10 @@ class Passage extends React.Component {
     }
 
     render() {
-        const lines = this.props.lines.map((n, i)=>
-            <span className={"line" + (i <= this.state.guesses ? " shown" : "")} key={i}>{n}</span>
+        const lines = this.props.lines.map((line, i)=>
+            <span className={"line" + (i <= this.state.guesses ? " shown" : "")} key={i}>
+                {line}
+            </span>
         );
         return (
             <div className="PhraseContainer">

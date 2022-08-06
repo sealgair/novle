@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 
 from books.models import Author, Book
@@ -68,10 +69,11 @@ class BookAdmin(admin.ModelAdmin):
                 'skip_puzzle',
                 'google_books',
                 'opening',
+                'preview',
             )
         }),
     )
-    readonly_fields = ('lines', 'google_books')
+    readonly_fields = ('lines', 'google_books', 'preview')
     list_display = ['title', 'author', 'skip_puzzle', 'lines']
     list_editable = ['skip_puzzle']
     search_fields = ['title', 'author__name']
@@ -129,6 +131,18 @@ class BookAdmin(admin.ModelAdmin):
             l for l in re.split(r'\s*\n+\s*', obj.opening)
             if l
         ])
+
+    def preview(self, obj):
+        lines = ''.join([
+            f"""<span class="line shown">{line}</span>"""
+            for line in obj.lines
+        ])
+        output = f"""
+        <div class="PhraseContainer">
+            {lines}
+        </div>
+        """
+        return mark_safe(output)
 
     def google_books(self, obj):
         """

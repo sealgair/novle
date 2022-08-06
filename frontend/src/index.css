@@ -146,18 +146,18 @@ h1, h2, h3, h4 {
 }
 
 .PhraseContainer {
-    padding: 1em 2em;
+    padding: 1em;
     border: 1px solid black;
     font-size: 13pt;
     background-color: var(--phrase-color);
     color: var(--phrase-text-color);
-    text-align: justify;
     border-radius: 0.5em;
 }
 .PhraseContainer .line {
     opacity: 0;
     user-select: none;
     transition: opacity 2s;
+    white-space: pre-wrap;
 }
 .PhraseContainer .line.shown {
     user-select: text;
@@ -195,6 +195,7 @@ ul.Guesses .Guess.Hints {
     align-items: center;
     padding: 0 5px;
     white-space: nowrap;
+    transition: height 200ms;
 }
 
 ul.Guesses .Guess.Hints .hint {
