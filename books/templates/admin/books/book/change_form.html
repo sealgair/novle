@@ -60,7 +60,6 @@
             paste = paste.replace(/-(\r?\n)(?!\r?\n)/g, ''); // collapse line breaks with hyphens
             paste = paste.replace(/(\r?\n)(?!\r?\n)/g, ' '); // collapse single newlines
             paste = paste.replace(/\s*?\n\s*/g, '\n\n');  // re-double remaining
-            paste = paste.replace(/\s*?-\s*/g, ' – ');  // expand hyphens to em-dashes
             paste = paste.replace(/(?<![DM][rs])(?<!Mrs)(?<!\.\.)(?<!\.\s)([.!?]['"]?)[^\S\n]+/g, '$1\n'); // new line breaks after periods
             let [before, selected, after] = splitSelection(event.target);
             opening.val(before + paste + after);
@@ -69,30 +68,39 @@
             opening.trigger('input');
         });
         opening.on('keyup', function (event) {
-            if ((event.metaKey || event.ctrlKey) && event.key === 'i') {
-                event.preventDefault();
+            if ((event.metaKey || event.ctrlKey)) {
                 const field = event.target;
-                if (field.selectionStart !== field.selectionEnd) {
-                    let [before, selected, after] = splitSelection(field);
-                    let changed = false;
-                    if (before.endsWith('_')) {
-                        before = before.replace(/_+$/, '');
-                        changed = true;
+                let [before, selected, after] = splitSelection(field);
+                if (event.key === 'i') { // toggle italics
+                    event.preventDefault();
+                    if (field.selectionStart !== field.selectionEnd) {
+                        let changed = false;
+                        if (before.endsWith('_')) {
+                            before = before.replace(/_+$/, '');
+                            changed = true;
+                        }
+                        if (selected.endsWith('_') || selected.startsWith('_')) {
+                            selected = selected.replace(/^_+/, '').replace(/_+$/, '');
+                            changed = true;
+                        }
+                        if (after.startsWith('_')) {
+                            after = after.replace(/^_+/, '');
+                            changed = true;
+                        }
+                        if (!changed) {
+                            selected = `_${selected}_`;
+                        }
                     }
-                    if (selected.endsWith('_') || selected.startsWith('_')) {
-                        selected = selected.replace(/^_+/, '').replace(/_+$/, '');
-                        changed = true;
-                    }
-                    if (after.startsWith('_')) {
-                        after = after.replace(/^_+/, '');
-                        changed = true;
-                    }
-                    if (!changed) {
-                        selected = `_${selected}_`;
-                    }
-                    field.value = before + selected + after;
-                    field.setSelectionRange(before.length, before.length + selected.length);
                 }
+                if (event.key === '-') { // toggle dashes
+                    if (selected.includes('-')) {
+                        selected = selected.replace(/\s*-\s*/g, ' – ');
+                    } else if (selected.includes(' – ')) {
+                        selected = selected.replace(/\s+–\s+/g, '-');
+                    }
+                }
+                field.value = before + selected + after;
+                field.setSelectionRange(before.length, before.length + selected.length);
             }
         });
     });
