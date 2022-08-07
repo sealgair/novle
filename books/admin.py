@@ -68,12 +68,13 @@ class BookAdmin(admin.ModelAdmin):
                 'pub_year',
                 'skip_puzzle',
                 'google_books',
+                'amazon',
                 'opening',
                 'preview',
             )
         }),
     )
-    readonly_fields = ('lines', 'google_books', 'preview')
+    readonly_fields = ('lines', 'google_books', 'amazon', 'preview')
     list_display = ['title', 'author', 'skip_puzzle', 'lines']
     list_editable = ['skip_puzzle']
     search_fields = ['title', 'author__name']
@@ -148,8 +149,12 @@ class BookAdmin(admin.ModelAdmin):
             return ''
 
     def google_books(self, obj):
-        """
-        https://www.google.com/search?q=intitle:%22Great+Expectations%22+inauthor:%22Charles+Dickens%22&sxsrf=ALiCzsbHQGpnJ25Zm1mKZ5n6S14lZUCz1Q:1659452384381&source=lnms&tbm=bks&sa=X&ved=2ahUKEwjn4ZHvtaj5AhWLhIkEHTceCLEQ_AUoAnoECAIQBA&biw=1440&bih=762&dpr=2
-        """
         url = f'https://www.google.com/search?tbm=bks&q=intitle:%22{obj.title}%22+inauthor:%22{obj.author.name}%22'
         return format_html("""<a href="{url}" target="_blank">search google books</a>""", url=url)
+
+    def amazon(self, obj):
+        """
+        https://smile.amazon.com/s?k=the+crying+of+lot+49+thomas+pynchon
+        """
+        url = f"https://smile.amazon.com/s?k={obj.title}+{obj.author.name}"
+        return format_html("""<a href="{url}" target="_blank">search amazon</a>""", url=url)
