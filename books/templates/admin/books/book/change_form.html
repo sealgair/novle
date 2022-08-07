@@ -32,6 +32,17 @@
 {% block admin_change_form_document_ready %}
     {{ block.super }}
     <script>
+    function splitSelection(field) {
+        const sStart = field.selectionStart;
+        const sEnd = field.selectionEnd;
+        const sLen = sEnd - sStart;
+        const tLen = field.value.length;
+        let before = field.value.substr(0, sStart);
+        let selected = field.value.substr(sStart, sLen);
+        let after = field.value.substr(sEnd, tLen);
+        return [before, selected, after];
+    }
+
     django.jQuery(function ($) {
         const opening = $("textarea#id_opening");
         const counter = $("<span id='opening-line-count'></span>")
@@ -50,14 +61,8 @@
             paste = paste.replace(/(\r?\n)(?!\r?\n)/g, ' '); // collapse single newlines
             paste = paste.replace(/\s*?\n\s*/g, '\n\n');  // re-double remaining
             paste = paste.replace(/\s*?-\s*/g, ' – ');  // expand hyphens to em-dashes
-            paste = paste.replace(/(?<![MD][rs]+)\.[^\S\n]+/g, '.\n'); // new line breaks after periods
-            const field = event.target;
-            const sStart = field.selectionStart;
-            const sEnd = field.selectionEnd;
-            const sLen = sEnd - sStart;
-            const tLen = field.value.length;
-            let before = field.value.substr(0, sStart);
-            let after = field.value.substr(sEnd, tLen);
+            paste = paste.replace(/(?<![DM][rs])(?<!Mrs)(?<!\.\.)(?<!\.\s)([.!?]['"]?)[^\S\n]+/g, '$1\n'); // new line breaks after periods
+            let [before, selected, after] = splitSelection(event.target);
             opening.val(before + paste + after);
             const cursor = before.length + paste.length;
             field.setSelectionRange(cursor, cursor);
@@ -68,22 +73,16 @@
                 event.preventDefault();
                 const field = event.target;
                 if (field.selectionStart !== field.selectionEnd) {
-                    const sStart = field.selectionStart;
-                    const sEnd = field.selectionEnd;
-                    const sLen = sEnd - sStart;
-                    const tLen = field.value.length;
+                    let [before, selected, after] = splitSelection(field);
                     let changed = false;
-                    let before = field.value.substr(0, sStart);
                     if (before.endsWith('_')) {
                         before = before.replace(/_+$/, '');
                         changed = true;
                     }
-                    let selected = field.value.substr(sStart, sLen);
                     if (selected.endsWith('_') || selected.startsWith('_')) {
                         selected = selected.replace(/^_+/, '').replace(/_+$/, '');
                         changed = true;
                     }
-                    let after = field.value.substr(sEnd, tLen);
                     if (after.startsWith('_')) {
                         after = after.replace(/^_+/, '');
                         changed = true;
