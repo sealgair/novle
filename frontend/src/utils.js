@@ -1,23 +1,3 @@
-const directions = [
-    "north",
-    "north-northeast",
-    "northeast",
-    "east-northeast",
-    "east",
-    "east-southeast",
-    "southeast",
-    "south-southeast",
-    "south",
-    "south-southwest",
-    "southwest",
-    "west-southwest",
-    "west",
-    "west-northwest",
-    "northwest",
-    "north-northwest",
-    "north",
-];
-
 function plural(n, singular, plural) {
     return n == 1 ? singular : plural;
 }
@@ -132,7 +112,6 @@ function drawCheck(ctx, s) {
 }
 
 export {
-    directions,
     getLines,
     drawArrow,
     drawCheck,
