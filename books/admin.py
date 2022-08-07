@@ -133,16 +133,19 @@ class BookAdmin(admin.ModelAdmin):
         ])
 
     def preview(self, obj):
-        lines = ''.join([
-            f"""<span class="line shown">{line}</span>"""
-            for line in obj.lines
-        ])
-        output = f"""
-        <div class="PhraseContainer">
-            {lines}
-        </div>
-        """
-        return mark_safe(output)
+        if obj.lines:
+            lines = ''.join([
+                f"""<span class="line shown">{line}</span>"""
+                for line in obj.lines
+            ])
+            output = f"""
+            <div class="PhraseContainer">
+                {lines}
+            </div>
+            """
+            return mark_safe(output)
+        else:
+            return ''
 
     def google_books(self, obj):
         """
