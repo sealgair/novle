@@ -51,7 +51,16 @@
             paste = paste.replace(/\s*?\n\s*/g, '\n\n');  // re-double remaining
             paste = paste.replace(/\s*?-\s*/g, ' – ');  // expand hyphens to em-dashes
             paste = paste.replace(/(?<![MD][rs]+)\.[^\S\n]+/g, '.\n'); // new line breaks after periods
-            opening.val(opening.val() + paste);
+            const field = event.target;
+            const sStart = field.selectionStart;
+            const sEnd = field.selectionEnd;
+            const sLen = sEnd - sStart;
+            const tLen = field.value.length;
+            let before = field.value.substr(0, sStart);
+            let after = field.value.substr(sEnd, tLen);
+            opening.val(before + paste + after);
+            const cursor = before.length + paste.length;
+            field.setSelectionRange(cursor, cursor);
             opening.trigger('input');
         });
         opening.on('keyup', function (event) {
