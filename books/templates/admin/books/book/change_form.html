@@ -64,7 +64,7 @@
             let [before, selected, after] = splitSelection(event.target);
             opening.val(before + paste + after);
             const cursor = before.length + paste.length;
-            field.setSelectionRange(cursor, cursor);
+            event.target.setSelectionRange(cursor, cursor);
             opening.trigger('input');
         });
         opening.on('keyup', function (event) {
