@@ -4,23 +4,26 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    --bg-color: #281509;
-    --phrase-color: #f8f4ee;
+    --bg-color: #281105;
+    --phrase-color: #f9efe1;
     --phrase-text-color: black;
     --text-color: #f8f4ee;
     --dim-text-color: #a19bb2;
-    --guess-text-color: #f6efff;
-    --choice-color: #7c7069;
-    --guess-color: #9a4825;
-    --share-color: #319a25;
+    --choice-color: #6e6159;
+    --guess-color: #82310f;
+    --guess-text-color: #fbefd4;
+    --share-color: #187d0c;
+    --share-fail-color: #7e1010;
+    --incorrect-color: #030303; /*⬛️*/
     --correct-color: #02b301; /*🟩*/
-    --arrow-color: #6f8eac; /*⬆️*/
+    --almost-color: #e87502; /*🟧*/
     --trophy-color: #ffed68; /*🏆*/
     --wrong-color: #c42626;
-    --link-color: #e05e40;
-    --graph-color: #cc4e1c;
-    --input-bg-color: #44251b;
-    --guess-bg-color: black;
+    --link-color: #02a61b;
+    --graph-color: #ac7a04;
+    --input-bg-color: #370e05;
+    --guess-bg-color: #eadeb9;
+    --select-color: #df3912;
 
     background: var(--bg-color);
     color: var(--text-color);
@@ -32,15 +35,14 @@ body {
 
 @media (prefers-color-scheme: light) {
     body {
-        --bg-color: #f6efff;
+        --bg-color: #f8f4ee;
         --guess-bg-color: white;
         --text-color: #150326;
         --dim-text-color: #7c7a81;
-        --choice-color: #c8c0cc;
-        --input-bg-color: #f6efff;
-        --link-color: #881bf8;
-        --graph-color: #ae5eff;
-        --arrow-color: #81accc; /*⬆️*/
+        --choice-color: #a69990;
+        --input-bg-color: #f9efe1;
+        --graph-color: #daa320;
+        --select-color: #daa320;
     }
 }
 
@@ -187,7 +189,7 @@ ul.Guesses .Guess {
 }
 
 ul.Guesses .Guess.Hints {
-    background-color: var(--phrase-color);
+    background-color: var(--guess-bg-color);
     color: var(--phrase-text-color);
     border: 1px solid var(--phrase-text-color);
     display: flex;
@@ -330,7 +332,6 @@ label.Hidden {
 .BookList {
     margin: 0;
     padding: 0;
-    background-color: var(--input-bg-color);
     display: flex;
     flex-direction: column-reverse;
     position: absolute;
@@ -339,24 +340,25 @@ label.Hidden {
 }
 
 .Book {
-    border: 1px solid var(--text-color);
+    background-color: var(--input-bg-color);
+    border: 2px solid var(--text-color);
     border-radius: 5px;
     padding: 5px;
-    margin: 3px 0;
+    margin: 0;
     list-style: none;
     cursor: pointer;
 }
 
 .Book.Selected {
-    border: 2px solid var(--link-color);
+    border: 2px solid var(--select-color);
 }
 
 button.Guess {
     font-weight: bold;
     text-transform: uppercase;
-    font-family: 'NotoTitle';
+    font-family: "Times New Roman";
     height: 2.5em;
-    font-size: 18px;
+    font-size: 22px;
 }
 
 .MakeGuess {
@@ -371,13 +373,13 @@ button.Guess {
 }
 
 .Share {
-    background-color: var(--correct-color);
+    background-color: var(--share-color);
     color: var(--guess-text-color);
     cursor: pointer;
 }
 
 .Share.Fail {
-    background-color: var(--wrong-color);
+    background-color: var(--share-fail-color);
 }
 
 .ShareBox {

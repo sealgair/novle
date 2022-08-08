@@ -47,18 +47,19 @@ class Share extends React.Component {
         return scores[this.props.puzzle.order];
     }
 
-    getOpener() {
+    getOpener(newline) {
         let opener = this.props.puzzle.lines[0].trim();
-        opener = opener.replace(/\s*\n\s*/g, ' / ');
-        opener = opener.replace(/\s*<\/?em>\s*/g, ' ');
-        opener = opener.replace(/\s+/g, ' ');
-        return opener
+        if (!newline) {
+            opener = opener.replace(/\s*\n\s*/g, '/ ');
+        }
+        opener = opener.replace(/\s*<\/?em>\s*/g, '');
+        return `"${opener.trim()}"`;
     }
 
     makeScoreImage() {
         const score = this.getScore();
         const title = `Bookle #${this.props.puzzle.order}: ${score}/6`;
-        let opener = this.getOpener()
+        let opener = this.getOpener(true);
         const guesses = this.props.guesses;
         const size = 30;
         const ox = 10;
@@ -81,33 +82,34 @@ class Share extends React.Component {
             });
 
             const boxColors = {
-                [true]: cssVar('--correct-color'),
-                [false]: cssVar('--guess-bg-color'),
+                [true]: cssVar('--almost-color'),
+                [false]: cssVar('--incorrect-color'),
             }
             ctx.strokeStyle = cssVar('--text-color');
             let x = ox + ix;
             guesses.forEach(function (guess, i) {
+                ctx.fillStyle = cssVar('--text-color');
+                ctx.fillRect(x-2, y-2, size+4, size+4);
                 ctx.fillStyle = boxColors[guess.hint.author];
                 ctx.fillRect(x, y, size, size);
 
                 if (guess.hint.book) {
                     ctx.font = '18px mono';
-                    ctx.fillStyle = boxColors[true];
+                    ctx.fillStyle = cssVar('--correct-color');
                     ctx.fillRect(x, y, size, size);
                     ctx.translate(x + size / 2, y + size / 2);
                     drawCheck(ctx, size - 10);
                 } else {
-                    ctx.fillStyle = cssVar('--arrow-color');
                     ctx.fillRect(x, y, size, size);
                     ctx.fillStyle = cssVar('--text-color');
                     ctx.translate(x + size / 2, y + size / 2);
-                    if (guess.hint.year == -1) {
+                    if (guess.hint.year === -1) {
                         ctx.scale(1, -1);
                     }
                     drawArrow(ctx, size - 10);
                 }
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
-                x += size + 5;
+                x += size + 8;
             });
             y += size + ly;
 
@@ -145,7 +147,7 @@ class Share extends React.Component {
     makeScore() {
         const style = this.state.style;
         const score = this.getScore();
-        const title = `#Bookle #${this.props.puzzle.order}: ${score}/6\n  ${this.getOpener()}`;
+        const title = `#Bookle #${this.props.puzzle.order}: ${score}/6\n${this.getOpener()}`;
         if (style === "image") {
             return this.makeScoreImage();
         }

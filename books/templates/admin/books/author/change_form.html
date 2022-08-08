@@ -25,11 +25,11 @@
                 }
                 line = line.trim();
                 if (line) {
-                    row.find('.vTextField').val(line.trim());
-                    if (row.next('.dynamic-book_set').length === 0) {
+                    row.find('.vTextField').val(line);
+                    if (row.next('.dynamic-authored').length === 0) {
                         $('.add-row a').trigger('click');
                     }
-                    row = row.next('.dynamic-book_set');
+                    row = row.next('.dynamic-authored');
                 }
             }
         });
