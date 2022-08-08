@@ -17,15 +17,18 @@
     box-sizing: border-box;
 }
 .PhraseContainer .line {
-    opacity: 0;
-    user-select: none;
-    transition: opacity 2s;
+    opacity: 1;
+    transition: opacity 200ms;
     white-space: pre-wrap;
 }
-.PhraseContainer .line.shown {
-    user-select: text;
-    opacity: 1;
+
+.PhraseContainer:hover .line:hover ~ .line {
+    opacity: 0.3;
 }
+{#.PhraseContainer:hover .line:hover {#}
+{#    opacity: 1;#}
+{#}#}
+
 </style>
 {% endblock %}
 
