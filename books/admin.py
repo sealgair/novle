@@ -18,8 +18,11 @@ from books.models import Author, Book
 
 class BookInline(admin.TabularInline):
     model = Book
-    fields = ['title', 'pub_year', 'skip_puzzle']
+    fields = ['title', 'pub_year', 'alternate_titles', 'skip_puzzle']
     extra = 6
+    formfield_overrides = {
+        models.TextField: {'widget': TextInput},
+    }
 
 
 @admin.register(Author)
