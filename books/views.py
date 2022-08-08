@@ -15,7 +15,10 @@ class BooksApi(ApiView):
             {
                 'id': b.id,
                 'title': b.title,
-                'author': b.author.name,
+                'alternate_titles': b.alternate_titles,
+                'authors': [
+                    author.name for author in b.all_authors()
+                ],
                 'year': b.pub_year,
             }
             for b in Book.objects.all()

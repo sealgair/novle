@@ -123,7 +123,9 @@ class Guesses extends ServerComponent {
             if (guess) {
                 return (<li className="Guess Hints" key={n}>
                     <div className="author hint">
-                        <div className="wrapper">{guess.author}</div>
+                        <div className='wrapper'>
+                            {guess.authors.map((author, i) => <div className="author" key={i}>{author}</div>)}
+                        </div>
                         <i className={`icon fa-solid ${HINTS[guess.hint.author]}`}></i>
                     </div>
                     <div className="bookTitle hint">

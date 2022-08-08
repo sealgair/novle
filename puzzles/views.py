@@ -22,7 +22,10 @@ class GuessView(ApiView):
         return {
             'success': hint['book'],
             'book': guess.title,
-            'author': guess.author.name,
+            'extra': guess.alternate_titles,
+            'authors': [
+                author.name for author in guess.all_authors()
+            ],
             'year': guess.pub_year,
             'hint': hint,
         }

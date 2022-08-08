@@ -79,7 +79,7 @@ class Lookup extends ServerComponent {
         const query = rd(this.state.value);
         const patterns = query.split(" ").map(t => new RegExp('\\b' + escapeRegExp(t), 'gi'));
         return this.books.filter(book => patterns.reduce(
-            (p, pat) => p && (rd(book.title).match(pat) || rd(book.author).match(pat)),
+            (p, pat) => p && (rd(book.title + ' ' + book.alternate_titles).match(pat) || rd(book.authors.join(' ')).match(pat)),
             true
         ));
     }
@@ -98,7 +98,7 @@ class Lookup extends ServerComponent {
                 return (
                     <li className={classes} key={book.id} value={book.id} role="option"
                         onClick={self.handleSelect} id={"book-" + book.id}>
-                        {book.title} ({book.author})
+                        {book.title} ({book.authors.join(', ')})
                     </li>);
             });
             filtered = (

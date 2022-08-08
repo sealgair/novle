@@ -64,7 +64,9 @@ class BookAdmin(admin.ModelAdmin):
         (None, {
             'fields': (
                 'title',
+                'alternate_titles',
                 'author',
+                'coauthors',
                 'pub_year',
                 'skip_puzzle',
                 'google_books',
@@ -78,6 +80,7 @@ class BookAdmin(admin.ModelAdmin):
     list_display = ['title', 'author', 'skip_puzzle', 'lines']
     list_editable = ['skip_puzzle']
     search_fields = ['title', 'author__name']
+    filter_horizontal = ['coauthors']
     list_filter = [NeedsOpeningFilter]
     actions = [skip_books]
     formfield_overrides = {
