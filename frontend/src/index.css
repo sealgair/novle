@@ -565,3 +565,8 @@ fieldset ul {
     list-style: none;
     padding: 0;
 }
+
+.howTo .PhraseContainer,
+.howTo .GuessWrapper {
+    margin: 1em;
+}

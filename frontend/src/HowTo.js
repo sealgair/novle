@@ -14,7 +14,7 @@ class HowTo extends ModalComponent {
             <div>
                 <p>{t("howto.intro")}</p>
                 <p>{t("howto.afterGuess")}</p>
-                <p>
+                <p className="howTo">
                     {t("howto.example.phrase")}
                     <div className="PhraseContainer">
                         <span className="line shown">It was the best of times, it was the worst of times,</span>
