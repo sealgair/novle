@@ -1,9 +1,7 @@
 import React from "react";
-import {getData, plural} from "./utils";
+import {getData} from "./utils";
 import ModalComponent from "./ModalComponent";
 import {withTranslation} from "react-i18next";
-
-const FIRST_EASY = 11;
 
 class Statistics extends ModalComponent {
 

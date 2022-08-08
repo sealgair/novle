@@ -1,5 +1,5 @@
 import ServerComponent from "./ServerComponent";
-import {compare, escapeRegExp, removeDiacritics} from "./utils";
+import {escapeRegExp, removeDiacritics} from "./utils";
 import {withTranslation} from "react-i18next";
 import React from "react";
 
@@ -7,8 +7,11 @@ class Lookup extends ServerComponent {
 
     constructor(props) {
         super(props);
-        this.books = [];
-        this.state = {value: "", selected: 0};
+        this.state = {
+            value: "",
+            selected: 0,
+            books: []
+        };
 
         this.handleKeypress = this.handleKeypress.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -78,13 +81,34 @@ class Lookup extends ServerComponent {
         const rd = removeDiacritics;
         const query = rd(this.state.value);
         const patterns = query.split(" ").map(t => new RegExp('\\b' + escapeRegExp(t), 'gi'));
-        return this.books.filter(book => patterns.reduce(
+        return this.state.books.filter(book => patterns.reduce(
             (p, pat) => p && (rd(book.title + ' ' + book.alternate_titles).match(pat) || rd(book.authors.join(' ')).match(pat)),
             true
         ));
     }
 
+    bookName(book, year) {
+        if (year) {
+            return `${book.title} (${book.authors.join(', ')}, ${book.year})`;
+        } else {
+            return `${book.title} (${book.authors.join(', ')})`;
+        }
+    }
+
     render() {
+        if (this.props.answer) {
+            let answer = this.state.books.filter(b => b.id === this.props.answer);
+            if (answer.length === 1) {
+                answer = this.bookName(answer[0], true);
+            } else {
+                answer = "";
+            }
+            return <div className="LookupWrapper" aria-live="polite">
+                <input type="text" className="Guess Lookup" aria-label="correct answer"
+                       disabled value={answer}/>
+            </div>;
+        }
+
         let filtered = "";
         let selected = null;
         if (!this.guessId && this.state.value) {
@@ -96,9 +120,9 @@ class Lookup extends ServerComponent {
                     selected = book;
                 }
                 return (
-                    <li className={classes} key={book.id} value={book.id} role="option"
+                    <li className={classes} key={book.id} value={book.id} role="option" aria-selected={self.state.selected}
                         onClick={self.handleSelect} id={"book-" + book.id}>
-                        {book.title} ({book.authors.join(', ')})
+                        {self.bookName(book)}
                     </li>);
             });
             filtered = (
@@ -125,13 +149,15 @@ class Lookup extends ServerComponent {
     }
 
     componentWillUnmount() {
-        this.books = [];
+        this.state.books = [];
     }
 
     loadBooks() {
         this.fetch("/books.json",
             (result) => {
-                this.books = result;
+                this.setState({
+                    books: result
+                })
             }
         );
     }

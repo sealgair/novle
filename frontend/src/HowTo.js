@@ -1,7 +1,6 @@
-import Word from "./Word";
 import React from "react";
 import ModalComponent from "./ModalComponent";
-import {withTranslation, Trans} from "react-i18next";
+import {withTranslation} from "react-i18next";
 
 class HowTo extends ModalComponent {
     getTitle() {
@@ -14,7 +13,7 @@ class HowTo extends ModalComponent {
             <div>
                 <p>{t("howto.intro")}</p>
                 <p>{t("howto.afterGuess")}</p>
-                <p className="howTo">
+                <div className="howTo">
                     {t("howto.example.phrase")}
                     <div className="PhraseContainer">
                         <span className="line shown">It was the best of times, it was the worst of times,</span>
@@ -40,7 +39,7 @@ class HowTo extends ModalComponent {
                         </ul>
                     </div>
                     {t("howto.example.explain")}
-                </p>
+                </div>
             </div>
         )
     }

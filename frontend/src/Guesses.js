@@ -7,8 +7,8 @@ import {withTranslation} from "react-i18next";
 
 const HINTS = {
     [-1]: 'fa-arrow-down',
-    [1]: 'fa-arrow-up',
-    [0]: 'fa-check',
+    1: 'fa-arrow-up',
+    0: 'fa-check',
     [true]: 'fa-check',
     [false]: 'fa-xmark',
 }
@@ -133,7 +133,7 @@ class Guesses extends ServerComponent {
                         <i className={`icon fa-solid ${HINTS[guess.hint.book]}`}></i>
                     </div>
                     <div className="year hint" title={t('guess.yearHint', {
-                        context: {[-1]: 'early', [0]: 'right', [1]: 'late'}[guess.hint.year]
+                        context: {[-1]: 'early', 0: 'right', 1: 'late'}[guess.hint.year]
                     })}>
                         <div className="wrapper">{guess.year}</div>
                         <i className={`icon fa-solid ${HINTS[guess.hint.year]}`}></i>
@@ -147,6 +147,9 @@ class Guesses extends ServerComponent {
         let lookup = "";
         let button = "";
         if (this.state.done) {
+            if (!this.state.success) {
+                lookup = <Lookup key={this.state.guesses.length} answer={this.props.puzzle.book}/>;
+            }
             button = <Share success={this.state.success} guesses={this.state.guesses}
                             puzzle={this.props.puzzle}/>;
         } else {
@@ -164,17 +167,6 @@ class Guesses extends ServerComponent {
                 {button}
             </div>
         </div>
-    }
-}
-
-class Solution extends React.Component {
-    render() {
-        return (
-            <div className="LookupWrapper" aria-live="polite">
-                <input type="text" className="Guess Lookup" aria-label="correct answer"
-                       disabled value={this.props.answer}/>
-            </div>
-        )
     }
 }
 

@@ -1,5 +1,5 @@
 import React from "react";
-import Canvas from "./Canvas";
+
 
 class ServerComponent extends React.Component {
     constructor(props) {

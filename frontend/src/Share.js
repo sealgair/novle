@@ -136,7 +136,7 @@ class Share extends React.Component {
                 line += t('share.alt.guessRight');
             } else {
                 line += t('share.alt.author', {context: guess.hint.author ? 'right' : 'wrong'}) + ', ';
-                line += t('share.alt.year', {context: {[-1]: 'early', [0]: 'right', [1]: 'late'}[guess.hint.year]});
+                line += t('share.alt.year', {context: {[-1]: 'early', 0: 'right', 1: 'late'}[guess.hint.year]});
             }
             description.push(line);
         });
@@ -154,8 +154,8 @@ class Share extends React.Component {
 
         const pubyear = {
             [-1]: '⬇️️',
-            [0]: '✅',
-            [1]: '⬆️',
+            0: '✅',
+            1: '⬆️'
         }
         const right = '🟩';
         const almost = '🟧';
@@ -269,7 +269,7 @@ class Share extends React.Component {
         }
         let score = this.makeScore();
         if (this.state.style !== "image") {
-            score = <pre role="image" aria-label={t("share.description")}>{score}</pre>;
+            score = <pre role="img" aria-label={t("share.description")}>{score}</pre>;
         }
         return <div className="ShareBox">
             <button tabIndex="0" autoFocus className={shareClass}

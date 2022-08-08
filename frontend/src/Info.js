@@ -33,10 +33,11 @@ class Info extends ModalComponent {
                 {t("info.bugs")}
             </p>
             <hr/>
-            <p className="links">
+            <div className="links">
                 <div className="title">{t("info.links")}</div>
-                <a href="https://lingule.xyz" target="_blank">Lingule</a> <div className="description">{t("info.lingule")}</div>
-            </p>
+                <a href="https://lingule.xyz" target="_blank" rel="noopener noreferrer">Lingule</a>
+                <div className="description">{t("info.lingule")}</div>
+            </div>
         </div>;
     }
 }

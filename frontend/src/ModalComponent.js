@@ -40,10 +40,10 @@ class ModalComponent extends React.Component {
                     <h1>{this.getTitle()}</h1>
                     <hr/>
                     {this.contents()}
-                    <a className="Close Icon">
+                    <button className="Close Icon">
                         <span className="Description">{t('buttons.close')}</span>
                         <i className="fa-solid fa-circle-xmark"></i>
-                    </a>
+                    </button>
                 </div>
             </div>
         )

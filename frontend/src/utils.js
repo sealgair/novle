@@ -1,7 +1,3 @@
-function plural(n, singular, plural) {
-    return n == 1 ? singular : plural;
-}
-
 function compare(a, b) {
     if (a < b) {
         return -1;
@@ -115,7 +111,6 @@ export {
     getLines,
     drawArrow,
     drawCheck,
-    plural,
     compare,
     randomInt,
     randomChoice,

@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    font-family: 'Times New Roman';
+    font-family: 'Times New Roman', serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
@@ -54,11 +54,6 @@ a {
     color: var(--link-color);
 }
 
-code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
 .Container {
     display: flex;
     flex: 1 1 auto;
@@ -93,13 +88,11 @@ code {
 }
 
 .Title {
-    font-family: 'NotoTitle';
     font-weight: bold;
     text-transform: uppercase;
 }
 
 h1, h2, h3, h4 {
-    font-family: 'NotoTitle';
     text-transform: uppercase;
     margin: 5px;
     text-align: center;
@@ -137,6 +130,8 @@ h1, h2, h3, h4 {
     margin: 0 5px;
     font-size: 28px;
     color: var(--text-color);
+    background-color: transparent;
+    border: none;
 }
 
 
@@ -265,6 +260,9 @@ button.Guess,
     border-radius: 5px;
     height: 30px;
 }
+input.Lookup {
+    font-family: "Times New Roman", serif;
+}
 
 .ToolTip {
     position: relative;
@@ -356,7 +354,7 @@ label.Hidden {
 button.Guess {
     font-weight: bold;
     text-transform: uppercase;
-    font-family: "Times New Roman";
+    font-family: "Times New Roman", serif;
     height: 2.5em;
     font-size: 22px;
 }
@@ -390,7 +388,7 @@ button.Guess {
 
 .ShareData {
     display: flex;
-    align-items: start;
+    align-items: flex-start;
     padding: 0;
     border: 2px solid var(--text-color);
     border-top-width: 0;
@@ -416,7 +414,6 @@ button.ShareOption {
     color: var(--text-color);
     border-color: var(--text-color);
     border-left-width: 0;
-    font-family: NotoTitle;
     text-transform: uppercase;
     height: 3.5em;
     text-align: left;
@@ -431,7 +428,6 @@ button.ToggleShareOptions {
     position: fixed;
     right: 0;
     bottom: 0;
-    font-family: NotoTitle;
     text-transform: uppercase;
     background-color: var(--bg-color);
     color: var(--text-color);
@@ -492,7 +488,7 @@ button.ToggleShareOptions {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: start;
+    justify-content: flex-start;
     margin: 10px;
     flex: 1;
 }
@@ -500,7 +496,6 @@ button.ToggleShareOptions {
 .Stat {
     font-size: 40px;
     font-weight: bold;
-    font-family: NotoTitle;
 }
 
 .StatLabel {
