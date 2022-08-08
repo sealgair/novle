@@ -16,6 +16,7 @@ class Share extends React.Component {
         this.toggleOptions = this.toggleOptions.bind(this);
         this.shareScore = this.shareScore.bind(this);
         this.getScore = this.getScore.bind(this);
+        this.getOpener = this.getOpener.bind(this);
         this.makeScore = this.makeScore.bind(this);
         this.makeScoreImage = this.makeScoreImage.bind(this);
         this.makeScoreDescription = this.makeScoreDescription.bind(this);
@@ -46,10 +47,18 @@ class Share extends React.Component {
         return scores[this.props.puzzle.order];
     }
 
+    getOpener() {
+        let opener = this.props.puzzle.lines[0].trim();
+        opener = opener.replace(/\s*\n\s*/g, ' / ');
+        opener = opener.replace(/\s*<\/?em>\s*/g, ' ');
+        opener = opener.replace(/\s+/g, ' ');
+        return opener
+    }
+
     makeScoreImage() {
         const score = this.getScore();
         const title = `Bookle #${this.props.puzzle.order}: ${score}/6`;
-        let opener = this.props.puzzle.lines[0];
+        let opener = this.getOpener()
         const guesses = this.props.guesses;
         const size = 30;
         const ox = 10;
@@ -112,7 +121,7 @@ class Share extends React.Component {
     makeScoreDescription() {
         const t = this.props.t;
         let description = [t('share.alt.title', {num: this.props.puzzle.order})];
-        description.push(this.props.puzzle.lines[0]);
+        description.push(this.getOpener());
         const score = this.getScore();
         if (this.props.success) {
             description.push(t("share.alt.score", {count: score}));
@@ -136,7 +145,7 @@ class Share extends React.Component {
     makeScore() {
         const style = this.state.style;
         const score = this.getScore();
-        const title = `#Bookle #${this.props.puzzle.order}: ${score}/6\n  ${this.props.puzzle.lines[0]}`;
+        const title = `#Bookle #${this.props.puzzle.order}: ${score}/6\n  ${this.getOpener()}`;
         if (style === "image") {
             return this.makeScoreImage();
         }
