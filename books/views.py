@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from bookle.utils import ApiView
+from novle.utils import ApiView
 from books.models import Book
 
 

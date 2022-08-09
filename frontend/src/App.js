@@ -17,7 +17,7 @@ class App extends ServerComponent {
         this.state = {
             puzzle: {
                 lines: [
-                    "Welcome to Bookle!"
+                    "Welcome to Novle!"
                 ]
             },
             modal: null,
@@ -68,7 +68,7 @@ class App extends ServerComponent {
                                     <i className="fa-solid fa-circle-info"></i>
                                 </button>
                             </span>
-                            <h1>Bookle</h1>
+                            <h1>Novle</h1>
                             <span className="IconSet Right">
                                 <button className="Settings Icon TipBelow" title={t("titles.settings")} onClick={this.openSettings}>
                                     <i className="fa-solid fa-gear"></i>

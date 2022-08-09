@@ -28,7 +28,7 @@
   "share": {
     "instructions_tap": "Appuyez et maintenez enfoncé pour copier l'image ci-dessous, appuyez sur \"$t(buttons.copyAlt)\" pour copier la description du texte",
     "instructions_click": "Faites un clic droit pour copier l'image ci-dessous, cliquez sur \"$t(buttons.copyAlt)\" pour copier la description du texte",
-    "description": "tableau de bord Bookle à base d'emoji pour ce tour",
+    "description": "tableau de bord Novle à base d'emoji pour ce tour",
     "styleChoice": "choisir le style de partage",
     "textStyle": "Texte",
     "spoilerStyle": "Divulgacher",
@@ -82,11 +82,11 @@
     "languageExplanation": "Les livres eux-mêmes resteront en anglais jusqu'à ce que je trouve les ressources pour les faire traduire."
   },
   "howto": {
-    "intro": "Chaque jour, vous recevrez la ligne d'ouverture d'un nouveau livre. Vous obtenez six suppositions pour comprendre ce qu'est le livre.",
-    "afterGuess": "Après chaque supposition, si vous n'obtenez pas le bon livre, vous verrez si vous avez le bon auteur et si le livre cible a été publié avant ou après le livre que vous avez deviné.",
+    "intro": "Chaque jour, vous recevrez la ligne d'ouverture d'un nouveau roman. Vous obtenez six suppositions pour comprendre ce qu'est le roman.",
+    "afterGuess": "Après chaque supposition, si vous n'obtenez pas le bon roman, vous verrez si vous avez le bon auteur et si le roman cible a été publié avant ou après le roman que vous avez deviné.",
     "example": {
       "phrase": "Par exemple, vous pourriez recevoir la ligne d'ouverture suivante:",
-      "guess": "Si vous avez deviné le livre 'Oliver Twist', vous verriez ceci:",
+      "guess": "Si vous avez deviné le roman 'Oliver Twist', vous verriez ceci:",
       "explain": "It is telling you that, while you didn't get the book right, you did get the correct author. The up arrow by the year tells you that the book you're after was published after 'Oliver Twist'"
     }
   }

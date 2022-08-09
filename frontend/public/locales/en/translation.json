@@ -28,14 +28,14 @@
   "share": {
     "instructions_tap": "Tap and hold to copy the image below, tap \"$t(buttons.copyAlt)\" to copy text description",
     "instructions_click": "Right click to copy the image below, click \"$t(buttons.copyAlt)\" to copy text description",
-    "description": "emoji-based Bookle scorecard for this round",
+    "description": "emoji-based Novle scorecard for this round",
     "styleChoice": "choose share style",
     "textStyle": "Text",
     "spoilerStyle": "Spoiler",
     "imageStyle": "Image",
     "options": "Share <1/> Options",
     "alt": {
-      "title": "Scorecard for Bookle #{{num}}",
+      "title": "Scorecard for Novle #{{num}}",
       "score_one": "Got it in one guess!",
       "score_other": "Got it in {{count}} guesses",
       "miss": "Didn't get it",
@@ -82,12 +82,12 @@
     "languageExplanation": "The books themselves will remain in English until I find the resources to get them all translated."
   },
   "howto": {
-    "intro": "Every day you'll be given the opening line to a new book. You get six guesses to figure out what the book is.",
-    "afterGuess": "After each guess, if you don't get the book right, you'll see whether you got the correct author, and whether the target book was published before or after the book you guessed.",
+    "intro": "Every day you'll be given the opening line to a new novel. You get six guesses to figure out what the novel is.",
+    "afterGuess": "After each guess, if you don't get the novel right, you'll see whether you got the correct author, and whether the target novel was published before or after the novel you guessed.",
     "example": {
       "phrase": "For example, you might be given the following opening line:",
-      "guess": "If you guessed the book 'Oliver Twist', you would see the this:",
-      "explain": "It is telling you that, while you didn't get the book right, you did get the correct author. The up arrow by the year tells you that the book you're after was published after 'Oliver Twist'"
+      "guess": "If you guessed the novel 'Oliver Twist', you would see the this:",
+      "explain": "It is telling you that, while you didn't get the novel right, you did get the correct author. The up arrow by the year tells you that the novel you're after was published after 'Oliver Twist'"
     }
   }
 }

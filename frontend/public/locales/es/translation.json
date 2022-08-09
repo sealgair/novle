@@ -28,14 +28,14 @@
   "share": {
     "instructions_tap": "Toque y mantenga presionado para copiar la imagen a continuación, toque \"$t(buttons.copyAlt)\" para copiar la descripción del texto",
     "instructions_click": "Haga clic derecho para copiar la imagen de abajo, haga clic en \"$t(buttons.copyAlt)\" para copiar la descripción del texto",
-    "description": "tarjeta de puntuación de Bookle basada en emoji para esta ronda",
+    "description": "tarjeta de puntuación de Novle basada en emoji para esta ronda",
     "styleChoice": "elige el estilo de compartir",
     "textStyle": "Texto",
     "spoilerStyle": "Spoiler",
     "imageStyle": "Imagen",
     "options": "Opciones <1/> para compartir",
     "alt": {
-      "title": "Tarjeta de puntuación para Bookle #{{num}}",
+      "title": "Tarjeta de puntuación para Novle #{{num}}",
       "score_one": "¡Lo se obtuvo de una vez!",
       "score_other": "Lo se obtuvo en {{score}} intentos",
       "miss": "No lo se obtuvo",
@@ -82,12 +82,12 @@
     "languageExplanation": "Los libros permanecerán en inglés hasta que encuentre los recursos para traducirlos todos."
   },
   "howto": {
-    "intro": "Todos los días se le dará la línea de apertura de un nuevo libro. Obtienes seis conjeturas para averiguar qué es el libro.",
-    "afterGuess": "Después de cada suposición, si no obtiene el libro correcto, verá si obtuvo el autor correcto y si el libro de destino se publicó antes o después del libro que adivinó.",
+    "intro": "Todos los días se le dará la línea de apertura de una nueva novela. Obtienes seis conjeturas para averiguar qué es la novela.",
+    "afterGuess": "Después de cada suposición, si no obtiene la novela correcto, verá si obtuvo el autor correcto y si la novela de destino se publicó antes o después de la novela que adivinó.",
     "example": {
       "phrase": "Por ejemplo, se le puede dar la siguiente línea de apertura:",
-      "guess": "Si adivinaste el libro 'Oliver Twist', verías esto:",
-      "explain": "Te está diciendo que, aunque no entendiste bien el libro, sí entendiste al autor correcto. La flecha hacia arriba junto al año indica que el libro que busca se publicó después de 'Oliver Twist'."
+      "guess": "Si adivinaste la novela 'Oliver Twist', verías esto:",
+      "explain": "Te está diciendo que, aunque no entendiste bien la novela, sí entendiste al autor correcto. La flecha hacia arriba junto al año indica que la novela que busca se publicó después de 'Oliver Twist'."
     }
   }
 }

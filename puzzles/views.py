@@ -3,7 +3,7 @@ from datetime import timezone, timedelta, datetime
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
 
-from bookle.utils import ApiView
+from novle.utils import ApiView
 from books.models import Book
 from puzzles.models import Solution
 

@@ -58,7 +58,7 @@ class Share extends React.Component {
 
     makeScoreImage() {
         const score = this.getScore();
-        const title = `Bookle #${this.props.puzzle.order}: ${score}/6`;
+        const title = `Novle #${this.props.puzzle.order}: ${score}/6`;
         let opener = this.getOpener(true);
         const guesses = this.props.guesses;
         const size = 30;
@@ -147,7 +147,7 @@ class Share extends React.Component {
     makeScore() {
         const style = this.state.style;
         const score = this.getScore();
-        const title = `#Bookle #${this.props.puzzle.order}: ${score}/6\n${this.getOpener()}`;
+        const title = `#Novle #${this.props.puzzle.order}: ${score}/6\n${this.getOpener()}`;
         if (style === "image") {
             return this.makeScoreImage();
         }
@@ -199,7 +199,7 @@ class Share extends React.Component {
         }
         if (isTouchOnly() && this.state.style !== "image" && navigator.share) {
             navigator.share({
-                title: "Bookle",
+                title: "Novle",
                 text: data,
             }).then(r => this.alertShare("Shared"));
         } else if (navigator.clipboard) {
