@@ -529,8 +529,12 @@ button.ToggleShareOptions {
     margin-right: .5em;
 }
 
+.InfoContent .links .title {
+    font-size: 18px;
+    font-weight: bold;
+}
 .InfoContent .links .description {
-    float: right;
+    margin-left: 10px;
 }
 
 .HelpList {

@@ -36,7 +36,7 @@ class Info extends ModalComponent {
             <div className="links">
                 <div className="title">{t("info.links")}</div>
                 <a href="https://lingule.xyz" target="_blank" rel="noopener noreferrer">Lingule</a>
-                <div className="description">{t("info.lingule")}</div>
+                <span> className="description">{t("info.lingule")}</span>
             </div>
         </div>;
     }
