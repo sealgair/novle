@@ -115,6 +115,7 @@ h1, h2, h3, h4 {
 
 .Header .IconSet {
     flex: 1;
+    white-space: nowrap;
 }
 
 .Header .IconSet.Left {

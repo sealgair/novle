@@ -12,7 +12,7 @@ class Info extends ModalComponent {
         return <div className="InfoContent">
             <p>{t("info.credit")}</p>
             <p>
-                <a href="https://github.com/sealgair/Novle" target="_new">
+                <a href="https://github.com/sealgair/novle" target="_new">
                     <i className="fa-brands fa-github Icon"></i>
                     {t("info.code")}
                 </a>
