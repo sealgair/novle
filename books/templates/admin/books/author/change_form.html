@@ -16,7 +16,7 @@
                 let m = line.search(/\d{4}/);
                 if (m !== -1) {
                     const year = line.substr(m, 4);
-                    row.find('.vIntegerField').val(year);
+                    row.find('.field-pub_year .vIntegerField').val(year);
                     if (line.match(/^[\W]*\d{4}/)) {
                         line = line.replace(/[\s,.\-(]+\d{4}[\W]*/, ' ');
                     } else {
@@ -25,7 +25,8 @@
                 }
                 line = line.trim();
                 if (line) {
-                    row.find('.vTextField').val(line);
+                    row.find('.field-title .vTextField').val(line);
+                    row.find('.field-skip_puzzle input').prop('checked', true);
                     if (row.next('.dynamic-authored').length === 0) {
                         $('.add-row a').trigger('click');
                     }
