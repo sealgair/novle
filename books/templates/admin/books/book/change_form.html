@@ -25,9 +25,6 @@
 .PhraseContainer:hover .line:hover ~ .line {
     opacity: 0.3;
 }
-{#.PhraseContainer:hover .line:hover {#}
-{#    opacity: 1;#}
-{#}#}
 
 </style>
 {% endblock %}
@@ -51,8 +48,27 @@
         const counter = $("<span id='opening-line-count'></span>")
         opening.after(counter);
         opening.on('input', function (event) {
-            const lines = event.target.value.split('\n').filter(l => l.trim().length > 0);
-            counter.text(`${lines.length}/6 lines`);
+            const linecount = event.target.value.split('\n').filter(l => l.trim().length > 0).length;
+            counter.text(`${linecount}/6 lines`);
+            let lines = [];
+            let indent = true;
+            for (let line of event.target.value.split('\n')) {
+                line = line.replace(/_(.+?)_/g, '<em>$1</em>');
+                line = line.replace(/\s+\/\s+/g, '\n\t');
+                line = line.trim()
+                if (line && lines.length < 6) {
+                    if (indent) { line = '\t' + line; }
+                    lines.push(line+' ')
+                } else {
+                    if (line === '') {
+                        line = '\n'
+                    }
+                    lines[lines.length-1] += line;
+                }
+                indent = line.endsWith('\n');
+            }
+            lines = lines.map(line => `<span class="line shown">${line}</span>`);
+            $('.field-preview .PhraseContainer').html(lines.join(""));
         });
         opening.trigger('input');
 
@@ -97,13 +113,14 @@
                 }
                 if (event.key === '-') { // toggle dashes
                     if (selected.includes('-')) {
-                        selected = selected.replace(/\s*-\s*/g, ' – ');
+                        selected = selected.replace(/\s*-+\s*/g, ' – ');
                     } else if (selected.includes(' – ')) {
                         selected = selected.replace(/\s+–\s+/g, '-');
                     }
                 }
                 field.value = before + selected + after;
                 field.setSelectionRange(before.length, before.length + selected.length);
+                opening.trigger('input');
             }
         });
     });
