@@ -61,6 +61,7 @@ class Book(models.Model):
             indent = True
             for line in self.opening.split('\n'):
                 line = re.sub(r"_(.+?)_", r'<em>\1</em>', line)
+                line = re.sub(r"\s+//\s+", '\n\n\t', line)
                 line = re.sub(r"\s+/\s+", '\n\t', line)
                 line = line.strip()
                 if line and len(lines) < 6:

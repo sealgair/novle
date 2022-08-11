@@ -5,7 +5,7 @@ from urllib.parse import quote as urlquote
 from django.contrib import admin
 from django.contrib.admin.templatetags.admin_urls import add_preserved_filters
 from django.db import models
-from django.forms import TextInput
+from django.forms import TextInput, ModelForm
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -60,6 +60,17 @@ def skip_books(modeladmin, request, queryset):
     queryset.update(skip_puzzle=True)
 
 
+class BookAdminForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['opening'].help_text = """
+        Each line is a new phrase, to be revealed after each guess. Insert an empty line between to phrases for a 
+        line break. Insert ' / ' inside a phrase for mid-phrase line break. 
+        ^i to toggle italics<br/>
+        ^- to toggle em dashes<br/>
+        ^u to toggle upper case<br/>
+        """
+
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
     list_per_page = 40
@@ -79,6 +90,7 @@ class BookAdmin(admin.ModelAdmin):
             )
         }),
     )
+    form = BookAdminForm
     readonly_fields = ('lines', 'google_books', 'amazon', 'preview')
     list_display = ['title', 'author', 'skip_puzzle', 'lines']
     list_editable = ['skip_puzzle']

@@ -43,10 +43,14 @@
         return [before, selected, after];
     }
 
+    function toCamelCase(text) {
+        return text.toLowerCase().replace( /\b\w/g, l => l.toUpperCase());
+    }
+
     django.jQuery(function ($) {
         const opening = $("textarea#id_opening");
         const counter = $("<span id='opening-line-count'></span>")
-        opening.after(counter);
+        $('.field-opening .help').append(counter);
         opening.on('input', function (event) {
             const linecount = event.target.value.split('\n').filter(l => l.trim().length > 0).length;
             counter.text(`${linecount}/6 lines`);
@@ -54,6 +58,7 @@
             let indent = true;
             for (let line of event.target.value.split('\n')) {
                 line = line.replace(/_(.+?)_/g, '<em>$1</em>');
+                line = line.replace(/\s+\/\/\s+/g, '\n\n\t');
                 line = line.replace(/\s+\/\s+/g, '\n\t');
                 line = line.trim()
                 if (line && lines.length < 6) {
@@ -116,6 +121,21 @@
                         selected = selected.replace(/\s*-+\s*/g, ' – ');
                     } else if (selected.includes(' – ')) {
                         selected = selected.replace(/\s+–\s+/g, '-');
+                    }
+                }
+                if (event.key === 'u') { // toggle case
+                    if (selected[0] === selected[0].toUpperCase()) {
+                        // first letter is upper
+                        if (selected === selected.toUpperCase()) {
+                            // whole word is upper, switch to camel
+                            selected = toCamelCase(selected);
+                        } else {
+                            // already camel, go lower (but keep 'I' upper)
+                            selected = selected.toLowerCase().replace(/\bi\b/, 'I');
+                        }
+                    } else {
+                        // already lower, go back to upper
+                        selected = selected.toUpperCase();
                     }
                 }
                 field.value = before + selected + after;
