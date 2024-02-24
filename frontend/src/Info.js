@@ -12,9 +12,15 @@ class Info extends ModalComponent {
         return <div className="InfoContent">
             <p>{t("info.credit")}</p>
             <p>
-                <a href="https://github.com/sealgair/novle" target="_new">
+                <a href="https://github.com/sealgair/lingule" target="_new">
                     <i className="fa-brands fa-github Icon"></i>
                     {t("info.code")}
+                </a>
+            </p>
+            <p>
+                <a href="https://bsky.app/profile/chase.caster.quest" target="_new">
+                    <i className="fa-solid fa-square Icon"></i>
+                    {t("info.skeet")}
                 </a>
             </p>
             <p>
@@ -24,7 +30,7 @@ class Info extends ModalComponent {
                 </a>
             </p>
             <p>
-                <a rel="me" href="https://weirder.earth/@chase" target="_new">
+                <a rel="me" href="https://peoplemaking.games/@chase" target="_new">
                     <i className="fa-brands fa-mastodon Icon"></i>
                     {t("info.toot")}
                 </a>
@@ -36,7 +42,7 @@ class Info extends ModalComponent {
             <div className="links">
                 <div className="title">{t("info.links")}</div>
                 <a href="https://lingule.xyz" target="_blank" rel="noopener noreferrer">Lingule</a>
-                <span> className="description">{t("info.lingule")}</span>
+                <span className="description">{t("info.lingule")}</span>
             </div>
         </div>;
     }
