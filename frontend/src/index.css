@@ -66,7 +66,7 @@ a {
     display: flex;
     flex-direction: column-reverse;
     align-items: center;
-    min-height: 100vh;
+    height: 100dvh;
     width: 100%;
     overflow-y: auto;
 }
@@ -152,12 +152,14 @@ h1, h2, h3, h4 {
     color: var(--phrase-text-color);
     border-radius: 0.5em;
 }
+
 .PhraseContainer .line {
     opacity: 0;
     user-select: none;
     transition: opacity 2s;
     white-space: pre-wrap;
 }
+
 .PhraseContainer .line.shown {
     user-select: text;
     opacity: 1;
@@ -210,9 +212,11 @@ ul.Guesses .Guess.Hints .hint.bookTitle .wrapper {
 ul.Guesses .Guess.Hints .icon {
     margin: 0 5px;
 }
+
 ul.Guesses .Guess.Hints .icon.fa-check {
     color: limegreen;
 }
+
 ul.Guesses .Guess.Hints .icon.fa-xmark {
     color: darkorange;
 }
@@ -262,6 +266,7 @@ button.Guess,
     border-radius: 5px;
     height: 30px;
 }
+
 input.Lookup {
     font-family: "Times New Roman", serif;
 }
@@ -291,6 +296,7 @@ input.Lookup {
     white-space: nowrap;
     z-index: 100;
 }
+
 .ToolTip[data-title]:before {
     content: attr(data-title);
 }
@@ -525,6 +531,7 @@ button.ToggleShareOptions {
 .InfoContent {
     text-align: center;
 }
+
 .InfoContent .Icon {
     margin-right: .5em;
 }
@@ -533,6 +540,7 @@ button.ToggleShareOptions {
     font-size: 18px;
     font-weight: bold;
 }
+
 .InfoContent .links .description {
     margin-left: 10px;
 }
@@ -554,12 +562,14 @@ button.ToggleShareOptions {
     transition: opacity 1500ms;
     box-sizing: border-box;
 }
+
 .Message:empty {
     height: 0;
     margin: 0;
     opacity: 0;
     padding: 0;
 }
+
 .Message * {
     width: 100%;
 }

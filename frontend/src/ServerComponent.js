@@ -16,29 +16,29 @@ class ServerComponent extends React.Component {
         this.fetch = this.fetch.bind(this);
     }
 
-    fetch(url, success, fail) {
-        let headers = {};
-        if (this.crossDomain) {
-            headers = {
-                crossDomain: true,
-                headers: {'Content-Type': 'application/json'},
-            };
-        }
-        fetch(this.server + url, headers)
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    success(result)
-                },
-                (error) => {
-                    if (fail) {
-                        fail(error);
-                    } else {
-                        console.log(error);
-                    }
-                }
-            );
+  fetch(url, success, fail) {
+    let headers = {};
+    if (this.crossDomain) {
+      headers = {
+        crossDomain: true,
+        headers: {'Content-Type': 'application/json'},
+      };
     }
+    fetch(this.server + url, headers)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          success(result)
+        },
+        (error) => {
+          if (fail) {
+            fail(error);
+          } else {
+            console.log(error);
+          }
+        }
+      );
+  }
 }
 
 export default ServerComponent;
