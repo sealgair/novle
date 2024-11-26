@@ -1,6 +1,9 @@
 import React from "react";
 import ModalComponent from "./ModalComponent";
 import {withTranslation} from "react-i18next";
+import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
+import CloseIcon from '@mui/icons-material/Close';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 class HowTo extends ModalComponent {
     getTitle() {
@@ -25,15 +28,15 @@ class HowTo extends ModalComponent {
                             <li className="Guess Hints">
                                 <div className="author hint">
                                     Charles Dickens
-                                    <i className="icon fa-solid fa-check"></i>
+                                    <DoneOutlineIcon/>
                                 </div>
                                 <div className="bookTitle hint">
                                     Oliver Twist
-                                    <i className="icon fa-solid fa-xmark"></i>
+                                    <CloseIcon/>
                                 </div>
                                 <div className="year hint">
                                     1873
-                                    <i className="icon fa-solid fa-arrow-up"></i>
+                                    <ArrowUpwardIcon/>
                                 </div>
                             </li>
                         </ul>

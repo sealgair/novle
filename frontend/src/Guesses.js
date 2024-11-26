@@ -4,13 +4,17 @@ import Share from "./Share";
 import React from "react";
 import Lookup from "./Lookup";
 import {withTranslation} from "react-i18next";
+import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
+import CloseIcon from '@mui/icons-material/Close';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 const HINTS = {
-    [-1]: 'fa-arrow-down',
-    1: 'fa-arrow-up',
-    0: 'fa-check',
-    [true]: 'fa-check',
-    [false]: 'fa-xmark',
+    [-1]: <ArrowDownwardIcon/>,
+    1: <ArrowUpwardIcon/>,
+    0: <DoneOutlineIcon/>,
+    [true]: <DoneOutlineIcon/>,
+    [false]: <CloseIcon/>,
 }
 
 class Guesses extends ServerComponent {
@@ -126,17 +130,17 @@ class Guesses extends ServerComponent {
                         <div className='wrapper'>
                             {guess.authors.map((author, i) => <div className="author" key={i}>{author}</div>)}
                         </div>
-                        <i className={`icon fa-solid ${HINTS[guess.hint.author]}`}></i>
+                        {HINTS[guess.hint.author]}
                     </div>
                     <div className="bookTitle hint">
                         <div className="wrapper">{guess.book}</div>
-                        <i className={`icon fa-solid ${HINTS[guess.hint.book]}`}></i>
+                        {HINTS[guess.hint.book]}
                     </div>
                     <div className="year hint" title={t('guess.yearHint', {
                         context: {[-1]: 'early', 0: 'right', 1: 'late'}[guess.hint.year]
                     })}>
                         <div className="wrapper">{guess.year}</div>
-                        <i className={`icon fa-solid ${HINTS[guess.hint.year]}`}></i>
+                        {HINTS[guess.hint.year]}
                     </div>
                 </li>);
             } else {
