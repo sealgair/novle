@@ -602,3 +602,7 @@ svg.icon {
     fill: currentColor;
     font-size: 1.5rem;
 }
+
+.MuiSvgIcon-root {
+    margin: 0 5px;
+}

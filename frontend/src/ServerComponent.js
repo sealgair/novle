@@ -2,19 +2,21 @@ import React from "react";
 
 
 class ServerComponent extends React.Component {
-    constructor(props) {
-        super(props);
-        if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-            // development build code
-            this.server = props.server || "http://" + window.location.host.split(':')[0] + ":8000";
-            this.crossDomain = true;
-        } else {
-            // production build code
-            this.server = props.server || "";
-            this.crossDomain = false;
-        }
-        this.fetch = this.fetch.bind(this);
+  constructor(props) {
+    super(props);
+    if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+      // development build code
+      this.server = props.server || "http://" + window.location.host.split(':')[0] + ":8000";
+      this.crossDomain = true;
+    } else {
+      // production build code
+      this.server = props.server || "";
+      this.crossDomain = false;
     }
+      this.server = "https://novle.xyz";
+      this.crossDomain = false;
+    this.fetch = this.fetch.bind(this);
+  }
 
   fetch(url, success, fail) {
     let headers = {};
